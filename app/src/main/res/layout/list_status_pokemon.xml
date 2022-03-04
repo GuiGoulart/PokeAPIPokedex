@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:id="@+id/typeCardView">
+
+    <TextView
+        android:id="@+id/statusTile"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="10dp"
+        android:text="@string/hp"
+        android:textColor="@color/silver"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <com.skydoves.progressview.ProgressView
+        android:id="@+id/statusProgressView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="10dp"
+        app:progressView_animation="bounce"
+        app:progressView_colorBackground="@color/progress_background"
+        app:progressView_colorProgress="@color/green"
+        app:progressView_labelColorInner="@color/black"
+        app:progressView_labelColorOuter="@color/black"
+        app:progressView_labelSize="18sp"
+        app:progressView_labelTypeface="italic"
+        app:progressView_max="300"
+        app:progressView_radius="15dp" />
+
+</LinearLayout>

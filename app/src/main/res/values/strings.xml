@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">PokéAPI Pokédex</string>
+    <string name="dialog_loading">Carregando…</string>
+    <string name="search_pokemons">Pesquisar Pokemons</string>
+    <string name="please_check_internet_connection">Por favor, verifique a conexão com a internet</string>
+    <string name="statistics">Estatísticas básicas</string>
+    <string name="weight">Peso</string>
+    <string name="height">Altura</string>
+    <string name="status">☆Status☆</string>
+
+    <!-- Name Status Pokemon -->
+    <string name="hp">HP</string>
+    <string name="attack">ATK</string>
+    <string name="defense">DEF</string>
+    <string name="special_attack">SP. ATK</string>
+    <string name="special_defense">SP. DEF</string>
+    <string name="speed">SPD</string>
+    <string name="others">Outros</string>
+</resources>
