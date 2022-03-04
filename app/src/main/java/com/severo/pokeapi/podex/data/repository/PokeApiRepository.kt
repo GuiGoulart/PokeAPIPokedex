@@ -7,7 +7,7 @@ import com.severo.pokeapi.podex.data.service.PokemonApi
 import com.severo.pokeapi.podex.model.SinglePokemonResponse
 import retrofit2.Response
 
-class ApiRepository(private var pokemonApi: PokemonApi) {
+class PokeApiRepository(private var pokemonApi: PokemonApi) {
 
     fun getPokemon(searchString: String?) = Pager(
         config = PagingConfig(enablePlaceholders = false, pageSize = 25),

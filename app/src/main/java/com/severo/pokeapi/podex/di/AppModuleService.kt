@@ -1,17 +1,16 @@
 package com.severo.pokeapi.podex.di
 
 import com.severo.pokeapi.podex.BuildConfig
-import com.severo.pokeapi.podex.data.repository.ApiRepository
 import com.severo.pokeapi.podex.data.service.AuthInterceptor
+import com.severo.pokeapi.podex.data.service.BeeceptorApi
 import com.severo.pokeapi.podex.data.service.PokemonApi
-import com.severo.pokeapi.podex.util.BASE_URL
+import com.severo.pokeapi.podex.util.BASE_URL_POKEAPI
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 private val loadFeatureService by lazy { loadKoinModules(appModuleService) }
@@ -22,6 +21,7 @@ val appModuleService = module {
     factory { AuthInterceptor() }
     factory { providesOkHttpClient() }
     factory { providePokemonApi(get()) }
+    factory { provideBeeceptorApi(get()) }
     single { provideRetrofit(get()) }
 
 }
@@ -38,8 +38,10 @@ fun providesOkHttpClient(): OkHttpClient {
 
 fun providePokemonApi(retrofit: Retrofit): PokemonApi = retrofit.create(PokemonApi::class.java)
 
+fun provideBeeceptorApi(retrofit: Retrofit): BeeceptorApi = retrofit.create(BeeceptorApi::class.java)
+
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =  Retrofit.Builder()
-    .baseUrl(BASE_URL)
+    .baseUrl(BASE_URL_POKEAPI)
     .client(okHttpClient)
     .addConverterFactory(GsonConverterFactory.create())
     .build()

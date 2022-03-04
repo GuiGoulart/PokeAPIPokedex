@@ -77,7 +77,11 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
         }
     }
 
-    override fun clickDetails(pokemonResultResponse: PokemonResultResponse, dominantColor: Int, picture: String?) {
+    override fun clickDetails(
+        pokemonResultResponse: PokemonResultResponse,
+        dominantColor: Int,
+        picture: String?
+    ) {
         val intent = Intent(this, DetailPokemonActivity::class.java)
         intent.putExtra("pokemonResult", pokemonResultResponse)
         intent.putExtra("dominantColor", dominantColor)

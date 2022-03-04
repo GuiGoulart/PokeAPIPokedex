@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.data.base.BaseAppCompatActivity
 import com.severo.pokeapi.podex.databinding.ActivityDetailPokemonBinding
 import com.severo.pokeapi.podex.model.PokemonResultResponse
@@ -26,6 +27,8 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
     private val detailsPokemonViewModel: DetailsPokemonViewModel by inject()
     private val adapterType: PokemonTypeAdapter by lazy { PokemonTypeAdapter(this) }
     private val adapterStatus: PokemonStatsAdapter by lazy { PokemonStatsAdapter(this) }
+
+    private var favorite: Boolean = false
 
     private var dominantColor: Int = 0
     private var picture: String = ""
@@ -90,6 +93,16 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                             binding.detailsPokemonWeight.text = it.weight.toString()
                             adapterType.setList(it.types)
                             adapterStatus.setList(it.stats)
+
+                            binding.detailsPokemonFavorite?.setOnClickListener { _ ->
+                                favorite = !favorite
+                                if(favorite){
+                                    detailsPokemonViewModel.postBeeceptor(it)
+                                    binding.detailsPokemonFavorite?.setImageResource(R.drawable.ic_baseline_favorite_24)
+                                } else {
+                                    binding.detailsPokemonFavorite?.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                                }
+                            }
                         }
                         dismissProgressDialog()
                     }
