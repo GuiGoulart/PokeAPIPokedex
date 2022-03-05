@@ -22,7 +22,7 @@ class HomeViewModel(private var pokemonRepositoryPoke: PokeApiRepository) : Base
     fun getPokemons(searchString: String?) {
         pokemonResultLiveData.postValue(SingleLiveEvent(Resource.loading()))
 
-        uiScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = pokemonRepositoryPoke.getPokemon(searchString)
                 response.flow.collectLatest {

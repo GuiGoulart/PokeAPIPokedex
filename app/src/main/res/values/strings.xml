@@ -16,6 +16,7 @@
     <string name="special_defense">SP. DEF</string>
     <string name="speed">SPD</string>
     <string name="others">Outros</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Erros -->
+    <string name="no_name">Não encontramos o nome do pokemon</string>
 </resources>

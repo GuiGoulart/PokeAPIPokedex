@@ -1,5 +1,6 @@
 package com.severo.pokeapi.podex.ui.adapter
 
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -24,7 +25,7 @@ import com.severo.pokeapi.podex.util.NETWORK_VIEW_TYPE
 import com.severo.pokeapi.podex.util.PRODUCT_VIEW_TYPE
 import com.severo.pokeapi.podex.util.extensions.getPicUrl
 
-class PokemonAdapter(var pokemonListener: PokemonListener) : PagingDataAdapter<PokemonResultResponse, PokemonAdapter.ViewHolder>(PokemonDiffCallback()) {
+class PokemonAdapter(var context: Context, var pokemonListener: PokemonListener) : PagingDataAdapter<PokemonResultResponse, PokemonAdapter.ViewHolder>(PokemonDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)!!
@@ -48,8 +49,9 @@ class PokemonAdapter(var pokemonListener: PokemonListener) : PagingDataAdapter<P
 
         fun bind(pokemonResultResponse: PokemonResultResponse) {
             binding.apply {
-                listItempokemonItemTitle.text = pokemonResultResponse.name.replaceFirstChar(Char::titlecase)
-                loadImage(this, pokemonResultResponse)
+                listItempokemonItemTitle.text =
+                    pokemonResultResponse.name?.replaceFirstChar(Char::titlecase) ?: context.getString(R.string.no_name)
+                loadImage(this, pokemonResultResponse )
 
                 listItemPokemonCardView.setOnClickListener {
                     pokemonListener.clickDetails(pokemonResultResponse, dominantColor, picture)
@@ -58,7 +60,7 @@ class PokemonAdapter(var pokemonListener: PokemonListener) : PagingDataAdapter<P
         }
 
         private fun loadImage(binding: ListItemPokemonBinding, pokemonResultResponse: PokemonResultResponse) {
-            picture = pokemonResultResponse.url.getPicUrl()
+            picture = pokemonResultResponse.url?.getPicUrl()
 
             binding.apply {
                 Glide.with(root)

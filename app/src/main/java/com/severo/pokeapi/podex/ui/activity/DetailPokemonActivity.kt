@@ -17,6 +17,9 @@ import com.severo.pokeapi.podex.model.PokemonResultResponse
 import com.severo.pokeapi.podex.ui.adapter.PokemonStatsAdapter
 import com.severo.pokeapi.podex.ui.adapter.PokemonTypeAdapter
 import com.severo.pokeapi.podex.ui.viewModel.DetailsPokemonViewModel
+import com.severo.pokeapi.podex.util.DOMINANT_COLOR
+import com.severo.pokeapi.podex.util.PICTURE
+import com.severo.pokeapi.podex.util.POKEMON_RESULT
 import com.severo.pokeapi.podex.util.Resource
 import org.koin.android.ext.android.inject
 
@@ -52,12 +55,13 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
     }
     private fun initExtra(){
         intent.extras?.let {
-            dominantColor = it.getInt("dominantColor", 0)
-            picture = it.getString("picture", "")
-            pokemonResultResponse = it.getSerializable("pokemonResult") as PokemonResultResponse
+            dominantColor = it.getInt(DOMINANT_COLOR, 0)
+            picture = it.getString(PICTURE, "")
+            pokemonResultResponse = it.getSerializable(POKEMON_RESULT) as PokemonResultResponse
 
-            detailsPokemonViewModel.getPokemonDetail(pokemonResultResponse.url)
-            binding.detailsPokemonTitle.text = pokemonResultResponse.name.replaceFirstChar(Char::titlecase)
+            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.getPokemonDetail(url) }
+            binding.detailsPokemonTitle.text =
+                pokemonResultResponse.name?.replaceFirstChar(Char::titlecase) ?: this.getString(R.string.no_name)
         }
     }
 
@@ -91,8 +95,14 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                             setImageDeminantColor()
                             binding.detailsPokemonHeight.text = it.height.toString()
                             binding.detailsPokemonWeight.text = it.weight.toString()
-                            adapterType.setList(it.types)
-                            adapterStatus.setList(it.stats)
+
+                            it.types?.let { types ->
+                                adapterType.setList(types)
+                            }
+
+                            it.stats?.let { stats ->
+                                adapterStatus.setList(stats)
+                            }
 
                             binding.detailsPokemonFavorite?.setOnClickListener { _ ->
                                 favorite = !favorite

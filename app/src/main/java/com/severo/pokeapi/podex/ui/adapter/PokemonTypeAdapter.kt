@@ -37,10 +37,10 @@ class PokemonTypeAdapter(var context: Context) : RecyclerView.Adapter<PokemonTyp
 
         fun bind(typesResponse: TypesResponse) {
             binding.apply {
-                typePoke.text = typesResponse.typeResponse.name.toString()
+                typePoke.text = typesResponse.typeResponse?.name.toString()
                 typeCardView.setCardBackgroundColor(
                     context.getColor(
-                        typesResponse.typeResponse.name.toString().typeColorPokemon()
+                        typesResponse.typeResponse?.name.toString().typeColorPokemon()
                     )
                 )
             }

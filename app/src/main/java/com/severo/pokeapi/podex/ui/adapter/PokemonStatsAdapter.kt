@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.databinding.ListStatusPokemonBinding
 import com.severo.pokeapi.podex.model.StatsResponse
 import com.severo.pokeapi.podex.util.extensions.statusColorPokemon
@@ -40,13 +41,15 @@ class PokemonStatsAdapter(var context: Context) : RecyclerView.Adapter<PokemonSt
 
         fun bind(types: StatsResponse) {
             binding.apply {
-                statusTile.text = context.resources.getString(types.statResponse.name.statusPokemon())
+                statusTile.text = types.statResponse?.name?.let { context.resources.getString(it.statusPokemon()) }
 
-                statusProgressView.progress = types.base_stat.toFloat()
+                statusProgressView.progress = types.base_stat?.toFloat() ?: 0F
                 statusProgressView.labelText = types.base_stat.toString().statusValueMinMaxPokemon()
 
-                statusTile.setTextColor(ContextCompat.getColor(context, types.statResponse.name.statusColorPokemon()))
-                statusProgressView.highlightView.color = ContextCompat.getColor(context, types.statResponse.name.statusColorPokemon())
+                statusTile.setTextColor(types.statResponse?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
+                    R.color.others))
+                statusProgressView.highlightView.color = types.statResponse?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
+                    R.color.others)
             }
         }
     }

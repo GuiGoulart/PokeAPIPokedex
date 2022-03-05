@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class PokemonResponse(
     @SerializedName("count")
-    val count: Int,
+    val count: Int?,
 
     @SerializedName("next")
     val next: String?,

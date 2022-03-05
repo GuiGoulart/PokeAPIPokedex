@@ -21,7 +21,7 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
     private lateinit var binding: ActivityHomeBinding
 
     private val homeViewModel: HomeViewModel by inject()
-    private val adapter: PokemonAdapter by lazy { PokemonAdapter(this) }
+    private val adapter: PokemonAdapter by lazy { PokemonAdapter(this, this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

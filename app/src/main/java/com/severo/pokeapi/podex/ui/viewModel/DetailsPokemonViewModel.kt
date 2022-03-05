@@ -23,7 +23,7 @@ class DetailsPokemonViewModel(
     fun getPokemonDetail(url: String) {
         pokemonDetailResultLiveData.postValue(SingleLiveEvent(Resource.loading()))
 
-        uiScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val id = url.extractId()
             try {
                 val response = pokemonRepositoryPoke.getSinglePokemon(id)
@@ -40,7 +40,7 @@ class DetailsPokemonViewModel(
     fun postBeeceptor(singlePokemonResponse: SinglePokemonResponse){
         beeceptorResultLiveData.postValue(SingleLiveEvent(Resource.loading()))
 
-        uiScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = beeceptorRepository.postWebhookBeeceptor(BASE_URL_BEECEPTOR, singlePokemonResponse)
                 if (response.isSuccessful) {

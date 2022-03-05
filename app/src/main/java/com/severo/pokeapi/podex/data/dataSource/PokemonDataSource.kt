@@ -17,7 +17,7 @@ class PokemonDataSource(private val pokemonApi: PokemonApi, private val searchSt
         return try {
             val data = pokemonApi.getPokemons(loadSize, offset)
             val filteredData = if (searchString != null) {
-                data.resultResponses.filter { it.name.contains(searchString, true) }
+                data.resultResponses.filter { it.name?.contains(searchString, true) ?: false }
             } else {
                 data.resultResponses
             }

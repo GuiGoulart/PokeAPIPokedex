@@ -5,8 +5,8 @@ import java.io.Serializable
 
 data class PokemonResultResponse(
     @SerializedName("name")
-    val name: String,
+    val name: String?,
 
     @SerializedName("url")
-    val url: String
+    val url: String?
 ) : Serializable
