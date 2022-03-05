@@ -73,7 +73,7 @@ class NetworkCallTest {
     @Test
     fun test_id_extraction() = runBlocking {
         val data = apiService.getPokemons(1, 0)
-        val id = data.resultResponses[0].url.substringAfter("pokemon").replace("/", "").toInt()
+        val id = data.resultResponses[0].url?.substringAfter("pokemon")?.replace("/", "")?.toInt()
         ViewMatchers.assertThat(id, CoreMatchers.equalTo(1))
     }
 }
