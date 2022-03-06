@@ -7,14 +7,9 @@ import com.severo.pokeapi.podex.ui.viewModel.HomeViewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
-private val loadFeature by lazy { loadKoinModules(appModule) }
-internal fun injectFeature() = loadFeature
-
-val appModule = module {
+val repositoryModule = module {
 
     factory { PokeApiRepository(get()) }
     factory { BeeceptorRepository(get()) }
-    factory { HomeViewModel(get()) }
-    factory { DetailsPokemonViewModel(get(), get()) }
 
 }

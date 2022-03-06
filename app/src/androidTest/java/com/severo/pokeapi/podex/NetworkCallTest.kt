@@ -5,6 +5,9 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.severo.pokeapi.podex.data.service.PokemonApi
+import com.severo.pokeapi.podex.util.CONNECT_TIMEOUT
+import com.severo.pokeapi.podex.util.READ_TIMEOUT
+import com.severo.pokeapi.podex.util.WRITE_TIMEOUT
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -36,9 +39,9 @@ class NetworkCallTest {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             .build()
 
         apiService = Retrofit.Builder()

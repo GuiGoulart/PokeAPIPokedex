@@ -7,9 +7,8 @@ import retrofit2.http.POST
 import retrofit2.http.Url
 
 interface BeeceptorApi {
-    @POST
+    @POST("pokemon/detail/favorite")
     suspend fun postWebhookBeeceptor(
-        @Url url: String,
         @Body singlePokemonResponse: SinglePokemonResponse
-    ): Response<Void>
+    )
 }

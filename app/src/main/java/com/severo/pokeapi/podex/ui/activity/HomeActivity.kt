@@ -12,6 +12,9 @@ import com.severo.pokeapi.podex.model.PokemonResultResponse
 import com.severo.pokeapi.podex.ui.adapter.PokemonAdapter
 import com.severo.pokeapi.podex.ui.adapter.listener.PokemonListener
 import com.severo.pokeapi.podex.ui.viewModel.HomeViewModel
+import com.severo.pokeapi.podex.util.DOMINANT_COLOR
+import com.severo.pokeapi.podex.util.PICTURE
+import com.severo.pokeapi.podex.util.POKEMON_RESULT
 import com.severo.pokeapi.podex.util.Resource
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -32,9 +35,14 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
     }
 
     private fun init(){
+        initListPokemon()
         setupAdapters()
         setupListeners()
         setupObservers()
+    }
+
+    private fun initListPokemon(){
+        homeViewModel.setup()
     }
 
     private fun setupAdapters() {
@@ -43,38 +51,49 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
 
     private fun setupListeners() {
         binding.searchView.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                homeViewModel.getPokemons(s.toString())
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable) {
+                homeViewModel.onAfterTextChanged(s.toString())
+            }
         })
     }
 
-    private fun setupObservers() {
-        homeViewModel.pokemonResultLiveData.observe(this) { singleLiveEvent ->
-            singleLiveEvent.getContentIfNotHandled()?.let { resource ->
-                when (resource.status) {
-                    Resource.Status.SUCCESS -> {
-                        val data = resource.data
-                        data?.let {
-                            this.lifecycleScope.launch {
-                                adapter.submitData(it)
-                            }
-                        }
-                        dismissProgressDialog()
-                    }
-                    Resource.Status.LOADING -> {
-                        showProgressDialog()
-                    }
-                    Resource.Status.ERROR -> {
-                        dismissProgressDialog()
-                    }
-                }
-            }
-        }
+    private fun setupObservers() = homeViewModel.run {
+//        pokemonResultLiveData.observe(this@HomeActivity) { singleLiveEvent ->
+//            singleLiveEvent.getContentIfNotHandled()?.let { resource ->
+//                when (resource.status) {
+//                    Resource.Status.SUCCESS -> {
+//                        val data = resource.data
+//                        data?.let {
+//                            this@HomeActivity.lifecycleScope.launch {
+//                                adapter.submitData(it)
+//                            }
+//                        }
+//                        dismissProgressDialog()
+//                    }
+//                    Resource.Status.LOADING -> {
+//                        showProgressDialog()
+//                    }
+//                    Resource.Status.ERROR -> {
+//                        dismissProgressDialog()
+//                    }
+//                }
+//            }
+//        }
+
+//        navigateToDetails.observe(this@HomeActivity) { singleLiveEvent ->
+//            singleLiveEvent.getContentIfNotHandled()?.let { triple ->
+//                val intent = Intent(this@HomeActivity, DetailPokemonActivity::class.java).apply {
+//                    putExtra(POKEMON_RESULT, triple.first)
+//                    putExtra(DOMINANT_COLOR, triple.second)
+//                    putExtra(PICTURE, triple.third)
+//                }
+//                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@HomeActivity).toBundle())
+//            }
+//        }
     }
 
     override fun clickDetails(
@@ -82,10 +101,10 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
         dominantColor: Int,
         picture: String?
     ) {
-        val intent = Intent(this, DetailPokemonActivity::class.java)
-        intent.putExtra("pokemonResult", pokemonResultResponse)
-        intent.putExtra("dominantColor", dominantColor)
-        intent.putExtra("picture", picture)
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        homeViewModel.onItemDetailClick(
+            pokemonResultResponse,
+            dominantColor,
+            picture
+        )
     }
 }

@@ -6,6 +6,6 @@ import retrofit2.Response
 
 class BeeceptorRepository(private var beeceptorApi: BeeceptorApi) {
 
-    suspend fun postWebhookBeeceptor(url: String, singlePokemonResponse: SinglePokemonResponse): Response<Void> = beeceptorApi.postWebhookBeeceptor(url, singlePokemonResponse)
+    suspend fun postWebhookBeeceptor(singlePokemonResponse: SinglePokemonResponse) = beeceptorApi.postWebhookBeeceptor(singlePokemonResponse)
 
 }

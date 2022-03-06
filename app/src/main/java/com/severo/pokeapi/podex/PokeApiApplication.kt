@@ -3,14 +3,13 @@ package com.severo.pokeapi.podex
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import com.severo.pokeapi.podex.di.appModule
-import com.severo.pokeapi.podex.di.appModuleService
+import com.severo.pokeapi.podex.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-val mainModules = listOf(appModuleService, appModule)
+val mainModules = listOf(apiModules, serviceModules, baseUrlModule, repositoryModule, viewModelModules)
 
 class PokeApiApplication : Application() {
     override fun onCreate() {

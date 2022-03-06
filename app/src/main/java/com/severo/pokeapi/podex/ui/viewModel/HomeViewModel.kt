@@ -14,12 +14,25 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private var pokemonRepositoryPoke: PokeApiRepository) : BaseViewModel() {
 
     val pokemonResultLiveData = MutableLiveData<SingleLiveEvent<Resource<PagingData<PokemonResultResponse>>>>()
+    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>>()
 
-    init {
+    fun setup() {
         getPokemons(null)
     }
 
-    fun getPokemons(searchString: String?) {
+    fun onAfterTextChanged(searchString: String){
+        getPokemons(searchString)
+    }
+
+    fun onItemDetailClick(
+        pokemonResultResponse: PokemonResultResponse,
+        dominantColor: Int,
+        picture: String?
+    ){
+        navigateToDetails.postValue(SingleLiveEvent(Triple(pokemonResultResponse, dominantColor, picture)))
+    }
+
+    private fun getPokemons(searchString: String?) {
         pokemonResultLiveData.postValue(SingleLiveEvent(Resource.loading()))
 
         viewModelScope.launch(Dispatchers.IO) {

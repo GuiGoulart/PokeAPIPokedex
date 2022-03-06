@@ -129,7 +129,7 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
     private fun setImageDeminantColor(){
         Glide.with(this)
-            .load(intent.extras?.getString("picture", ""))
+            .load(picture)
             .transition(DrawableTransitionOptions.withCrossFade())
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(

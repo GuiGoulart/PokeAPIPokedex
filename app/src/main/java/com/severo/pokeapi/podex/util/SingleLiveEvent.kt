@@ -1,6 +1,6 @@
 package com.severo.pokeapi.podex.util
 
-open class SingleLiveEvent<out T>(private val content: T) {
+data class SingleLiveEvent<out T>(private val content: T) {
     private var hasBeenHandled = false
 
     fun getContentIfNotHandled(): T? {

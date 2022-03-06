@@ -7,8 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.severo.pokeapi.podex.databinding.ActivitySplashBinding
-import com.severo.pokeapi.podex.di.injectFeature
-import com.severo.pokeapi.podex.di.injectFeatureService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -25,13 +23,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initView(){
-        initDependencyOnjection()
         delaySplash()
-    }
-
-    private fun initDependencyOnjection(){
-        injectFeatureService()
-        injectFeature()
     }
 
     private fun delaySplash(){

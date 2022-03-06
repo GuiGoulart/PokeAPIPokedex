@@ -42,16 +42,9 @@ class DetailsPokemonViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = beeceptorRepository.postWebhookBeeceptor(BASE_URL_BEECEPTOR, singlePokemonResponse)
-                if (response.isSuccessful) {
-                    beeceptorResultLiveData.postValue(SingleLiveEvent(Resource.success(response.body())))
-                }
-                else {
-                    beeceptorResultLiveData.postValue(SingleLiveEvent(Resource.error()))
-                }
+                beeceptorRepository.postWebhookBeeceptor(singlePokemonResponse)
             }catch (e: Exception){
                 Log.d("ErrorBeeceptor", e.message.toString())
-                beeceptorResultLiveData.postValue(SingleLiveEvent(Resource.error()))
             }
         }
     }
