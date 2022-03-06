@@ -3,7 +3,9 @@ package com.severo.pokeapi.podex.ui.activity
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
 import androidx.palette.graphics.Palette
+import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -31,8 +33,6 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
     private val adapterType: PokemonTypeAdapter by lazy { PokemonTypeAdapter(this) }
     private val adapterStatus: PokemonStatsAdapter by lazy { PokemonStatsAdapter(this) }
 
-    private var favorite: Boolean = false
-
     private var dominantColor: Int = 0
     private var picture: String = ""
     private var pokemonResultResponse: PokemonResultResponse = PokemonResultResponse("", "")
@@ -48,7 +48,6 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
     private fun init(){
         initExtra()
-        setColorTextDominant()
         setupListeners()
         setupAdapters()
         setupObservers()
@@ -63,15 +62,6 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
             binding.detailsPokemonTitle.text =
                 pokemonResultResponse.name?.replaceFirstChar(Char::titlecase) ?: this.getString(R.string.no_name)
         }
-    }
-
-    private fun setColorTextDominant(){
-        binding.detailsPokemonTitle.setTextColor(dominantColor)
-        binding.detailsPokemonWeight.setTextColor(dominantColor)
-        binding.detailsPokemonHeight.setTextColor(dominantColor)
-        binding.detailsPokemonWeightTitle.setTextColor(dominantColor)
-        binding.detailsPokemonHeightTitle.setTextColor(dominantColor)
-        binding.detailsPokemonBasePerformance.setTextColor(dominantColor)
     }
 
     private fun setupAdapters() {
@@ -92,7 +82,13 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                     Resource.Status.SUCCESS -> {
                         val data = resource.data
                         data?.let {
+
+                            binding.detailsPokemonImageError?.visibility = View.GONE
+                            binding.detailsPokemonTextError?.visibility = View.GONE
+                            binding.detailsPokemonConstraintDetail?.visibility = View.VISIBLE
+
                             setImageDeminantColor()
+
                             binding.detailsPokemonHeight.text = it.height.toString()
                             binding.detailsPokemonWeight.text = it.weight.toString()
 
@@ -105,13 +101,7 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                             }
 
                             binding.detailsPokemonFavorite?.setOnClickListener { _ ->
-                                favorite = !favorite
-                                if(favorite){
-                                    detailsPokemonViewModel.postBeeceptor(it)
-                                    binding.detailsPokemonFavorite?.setImageResource(R.drawable.ic_baseline_favorite_24)
-                                } else {
-                                    binding.detailsPokemonFavorite?.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                                }
+                                detailsPokemonViewModel.onClickFavoritePokemon(it)
                             }
                         }
                         dismissProgressDialog()
@@ -120,8 +110,22 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                         showProgressDialog()
                     }
                     Resource.Status.ERROR -> {
+                        binding.detailsPokemonImageError?.visibility = View.VISIBLE
+                        binding.detailsPokemonTextError?.visibility = View.VISIBLE
+                        binding.detailsPokemonConstraintDetail?.visibility = View.GONE
                         dismissProgressDialog()
                     }
+                }
+            }
+        }
+
+        detailsPokemonViewModel.onClickPokemonDetailLiveData.observe(this) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let { favoritePokemon ->
+                if (favoritePokemon) {
+                    binding.detailsPokemonFavorite?.speed = 1f
+                    binding.detailsPokemonFavorite?.playAnimation()
+                } else {
+                    binding.detailsPokemonFavorite?.progress = 0F
                 }
             }
         }

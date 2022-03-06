@@ -19,4 +19,5 @@
 
     <!-- Erros -->
     <string name="no_name">Não encontramos o nome do pokemon</string>
+    <string name="no_search_pokemon_detail">Não conseguimos encontrar esse pokemon</string>
 </resources>

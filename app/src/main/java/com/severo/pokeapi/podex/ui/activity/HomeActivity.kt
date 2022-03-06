@@ -62,38 +62,38 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
     }
 
     private fun setupObservers() = homeViewModel.run {
-//        pokemonResultLiveData.observe(this@HomeActivity) { singleLiveEvent ->
-//            singleLiveEvent.getContentIfNotHandled()?.let { resource ->
-//                when (resource.status) {
-//                    Resource.Status.SUCCESS -> {
-//                        val data = resource.data
-//                        data?.let {
-//                            this@HomeActivity.lifecycleScope.launch {
-//                                adapter.submitData(it)
-//                            }
-//                        }
-//                        dismissProgressDialog()
-//                    }
-//                    Resource.Status.LOADING -> {
-//                        showProgressDialog()
-//                    }
-//                    Resource.Status.ERROR -> {
-//                        dismissProgressDialog()
-//                    }
-//                }
-//            }
-//        }
+        pokemonResultLiveData.observe(this@HomeActivity) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let { resource ->
+                when (resource.status) {
+                    Resource.Status.SUCCESS -> {
+                        val data = resource.data
+                        data?.let {
+                            this@HomeActivity.lifecycleScope.launch {
+                                adapter.submitData(it)
+                            }
+                        }
+                        dismissProgressDialog()
+                    }
+                    Resource.Status.LOADING -> {
+                        showProgressDialog()
+                    }
+                    Resource.Status.ERROR -> {
+                        dismissProgressDialog()
+                    }
+                }
+            }
+        }
 
-//        navigateToDetails.observe(this@HomeActivity) { singleLiveEvent ->
-//            singleLiveEvent.getContentIfNotHandled()?.let { triple ->
-//                val intent = Intent(this@HomeActivity, DetailPokemonActivity::class.java).apply {
-//                    putExtra(POKEMON_RESULT, triple.first)
-//                    putExtra(DOMINANT_COLOR, triple.second)
-//                    putExtra(PICTURE, triple.third)
-//                }
-//                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@HomeActivity).toBundle())
-//            }
-//        }
+        navigateToDetails.observe(this@HomeActivity) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let { triple ->
+                val intent = Intent(this@HomeActivity, DetailPokemonActivity::class.java).apply {
+                    putExtra(POKEMON_RESULT, triple.first)
+                    putExtra(DOMINANT_COLOR, triple.second)
+                    putExtra(PICTURE, triple.third)
+                }
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@HomeActivity).toBundle())
+            }
+        }
     }
 
     override fun clickDetails(

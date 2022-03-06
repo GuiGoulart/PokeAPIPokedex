@@ -4,8 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.activity.DetailPokemonActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/detailsPokemonBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:alpha="0.7"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/detailsPokemonImageError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pokemon_error"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/detailsPokemonTextError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_search_pokemon_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsPokemonImageError"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailsPokemonConstraintDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/detailsPokemonCardView"
@@ -32,17 +79,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/detailsPokemonFavorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/bg_efect_click"
-                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    app:lottie_rawRes="@raw/pokemon_favorite" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/detailsPokemonImage"
@@ -67,7 +110,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:textAppearance="@style/Platform.MaterialComponents.Light"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/detailsPokemonWeightTitle"
@@ -106,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/detailsPokemonHeightTitle"
@@ -119,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:text="@string/weight"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +175,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:text="@string/height"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +188,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:text="@string/status"
-            android:textColor="@color/silver"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -164,4 +207,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailsPokemonBasePerformance"
             tools:listitem="@layout/list_status_pokemon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
