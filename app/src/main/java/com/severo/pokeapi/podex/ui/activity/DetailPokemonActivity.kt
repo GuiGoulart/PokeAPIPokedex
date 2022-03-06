@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.palette.graphics.Palette
-import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -100,7 +99,7 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                                 adapterStatus.setList(stats)
                             }
 
-                            binding.detailsPokemonFavorite?.setOnClickListener { _ ->
+                            binding.detailsPokemonFavorite.setOnClickListener { _ ->
                                 detailsPokemonViewModel.onClickFavoritePokemon(it)
                             }
                         }
@@ -122,10 +121,10 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
         detailsPokemonViewModel.onClickPokemonDetailLiveData.observe(this) { singleLiveEvent ->
             singleLiveEvent.getContentIfNotHandled()?.let { favoritePokemon ->
                 if (favoritePokemon) {
-                    binding.detailsPokemonFavorite?.speed = 1f
-                    binding.detailsPokemonFavorite?.playAnimation()
+                    binding.detailsPokemonFavorite.speed = 1f
+                    binding.detailsPokemonFavorite.playAnimation()
                 } else {
-                    binding.detailsPokemonFavorite?.progress = 0F
+                    binding.detailsPokemonFavorite.progress = 0F
                 }
             }
         }

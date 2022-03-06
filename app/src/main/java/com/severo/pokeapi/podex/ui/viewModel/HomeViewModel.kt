@@ -7,20 +7,26 @@ import com.severo.pokeapi.podex.util.SingleLiveEvent
 import com.severo.pokeapi.podex.data.base.BaseViewModel
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
 import com.severo.pokeapi.podex.model.PokemonResultResponse
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private var pokemonRepositoryPoke: PokeApiRepository) : BaseViewModel() {
+class HomeViewModel(
+    private var pokemonRepositoryPoke: PokeApiRepository,
+    private val coroutinesDispatcher: CoroutineDispatcher
+) : BaseViewModel() {
 
-    val pokemonResultLiveData = MutableLiveData<SingleLiveEvent<Resource<PagingData<PokemonResultResponse>>>>()
-    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>>()
+    val pokemonResultLiveData =
+        MutableLiveData<SingleLiveEvent<Resource<PagingData<PokemonResultResponse>>>>()
+    val navigateToDetails =
+        MutableLiveData<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>>()
 
     fun setup() {
         getPokemons(null)
     }
 
-    fun onAfterTextChanged(searchString: String){
+    fun onAfterTextChanged(searchString: String) {
         getPokemons(searchString)
     }
 
@@ -28,20 +34,28 @@ class HomeViewModel(private var pokemonRepositoryPoke: PokeApiRepository) : Base
         pokemonResultResponse: PokemonResultResponse,
         dominantColor: Int,
         picture: String?
-    ){
-        navigateToDetails.postValue(SingleLiveEvent(Triple(pokemonResultResponse, dominantColor, picture)))
+    ) {
+        navigateToDetails.postValue(
+            SingleLiveEvent(
+                Triple(
+                    pokemonResultResponse,
+                    dominantColor,
+                    picture
+                )
+            )
+        )
     }
 
     private fun getPokemons(searchString: String?) {
         pokemonResultLiveData.postValue(SingleLiveEvent(Resource.loading()))
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutinesDispatcher) {
             try {
                 val response = pokemonRepositoryPoke.getPokemon(searchString)
                 response.flow.collectLatest {
                     pokemonResultLiveData.postValue(SingleLiveEvent(Resource.success(it)))
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 pokemonResultLiveData.postValue(SingleLiveEvent(Resource.error()))
             }
         }

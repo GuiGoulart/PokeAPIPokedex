@@ -6,7 +6,7 @@ import org.koin.dsl.module
 
 val viewModelModules = module {
 
-    factory { HomeViewModel(get()) }
-    factory { DetailsPokemonViewModel(get(), get()) }
+    factory { HomeViewModel(get(), get()) }
+    factory { DetailsPokemonViewModel(get(), get(), get()) }
 
 }

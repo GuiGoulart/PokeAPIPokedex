@@ -1,5 +1,6 @@
 package com.severo.pokeapi.podex.repository
 
+import androidx.paging.Pager
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
 import com.severo.pokeapi.podex.data.service.PokemonApi
 import com.severo.pokeapi.podex.model.PokemonResponse
@@ -33,14 +34,27 @@ class PokeApiRepositoryTest {
 
     @Test
     fun `when repository getSinglePokemon is call main request is successful`() = runBlocking {
-        val mockk = mockk<Response<SinglePokemonResponse>>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
         coEvery {
             pokemonApi.getSinglePokemon(ID)
-        } returns mockk
+        } returns mockkSinglePokemonResponse
 
         val result = repository.getSinglePokemon(ID)
 
-        assertEquals(result, mockk)
+        assertEquals(result, mockkSinglePokemonResponse)
+    }
+
+    @Test
+    fun `when repository getPokemon is call main request is successful`() = runBlocking {
+        val mockkPokemonResponse = mockk<PokemonResponse>(relaxed = true)
+        val mockkPager = mockk<Pager<Int, PokemonResponse>>(relaxed = true)
+        coEvery {
+            pokemonApi.getPokemons(100, null)
+        } returns mockkPokemonResponse
+
+        val result = repository.getPokemon(SEARCH)
+
+        assertEquals(result, mockkPokemonResponse)
     }
 
     private companion object {

@@ -16,7 +16,7 @@ class PokeApiRepository(private var pokemonApi: PokemonApi) {
         }
     )
 
-    suspend fun getSinglePokemon(id: Int): Response<SinglePokemonResponse> = pokemonApi.getSinglePokemon(id)
+    suspend fun getSinglePokemon(id: Int): SinglePokemonResponse = pokemonApi.getSinglePokemon(id)
 
 
 }

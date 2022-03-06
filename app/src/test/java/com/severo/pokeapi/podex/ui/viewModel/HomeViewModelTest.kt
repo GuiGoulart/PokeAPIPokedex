@@ -9,13 +9,10 @@ import com.severo.pokeapi.podex.util.CoroutinesTestRule
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
 import io.mockk.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,8 +36,7 @@ class HomeViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(pokemonApiRepository)
-        Dispatchers.setMain(StandardTestDispatcher())
+        viewModel = HomeViewModel(pokemonApiRepository, coroutinesTestRule.testDispatcher)
         prepareObserver()
     }
 
@@ -60,22 +56,21 @@ class HomeViewModelTest {
 
     @Test
     fun `when onAfterTextChanged is call then request succeeds`() = runBlocking {
-//        val mockk = mockk<PagingData<PokemonResultResponse>>(relaxed = true)
+        val pagingDataResultMock = mockk<PagingData<PokemonResultResponse>>(relaxed = true)
+        val flowPagingDataMock = flowOf(pagingDataResultMock)
         coEvery {
             pokemonApiRepository.getPokemon(SEARCH)
         } returns mockk {
             every {
                 flow
-            } returns flow {
-                emit(mockk(relaxed = true))
-            }
+            } returns flowPagingDataMock
         }
 
         viewModel.onAfterTextChanged(SEARCH)
 
         coVerifyOrder {
             observerPokemonResult.onChanged(SingleLiveEvent(Resource.loading()))
-            observerPokemonResult.onChanged(SingleLiveEvent(Resource.success(mockk(relaxed = true))))
+            observerPokemonResult.onChanged(SingleLiveEvent(Resource.success(pagingDataResultMock)))
         }
     }
 

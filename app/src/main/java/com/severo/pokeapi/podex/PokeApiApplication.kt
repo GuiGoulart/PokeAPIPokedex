@@ -9,7 +9,14 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-val mainModules = listOf(apiModules, serviceModules, baseUrlModule, repositoryModule, viewModelModules)
+val mainModules = listOf(
+    apiModules,
+    serviceModules,
+    baseUrlModule,
+    repositoryModule,
+    viewModelModules,
+    dispatchersModule
+)
 
 class PokeApiApplication : Application() {
     override fun onCreate() {
