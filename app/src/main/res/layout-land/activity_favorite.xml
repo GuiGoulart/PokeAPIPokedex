@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.FavoriteActivity">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/homePokemonCardView"
+        android:id="@+id/favoritePokemonCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/homePokemonBack"
+                android:id="@+id/favoritePokemonBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -32,7 +32,7 @@
                 tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/homeSearchView"
+                android:id="@+id/favoriteSearchView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -46,36 +46,19 @@
                 android:textColorHint="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/homePokemonBack"
+                app:layout_constraintBottom_toBottomOf="@+id/favoritePokemonBack"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/homePokemonBack"
-                app:layout_constraintTop_toTopOf="@+id/homePokemonBack"
+                app:layout_constraintStart_toEndOf="@+id/favoritePokemonBack"
+                app:layout_constraintTop_toTopOf="@+id/favoritePokemonBack"
                 tools:ignore="TextContrastCheck,TouchTargetSizeCheck"
                 tools:visibility="visible" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/homePokemonFavorite"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/buttom_custom_favorite"
-                android:text="@string/my_favorite_pokemons"
-                app:circularflow_defaultRadius="10dp"
-                app:circularflow_radiusInDP="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeSearchView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/homePokemonBackground"
+        android:id="@+id/favoritePokemonBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:alpha="0.7"
@@ -87,7 +70,7 @@
         app:srcCompat="@drawable/background" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/homePokemonImageError"
+        android:id="@+id/favoritePokemonImageError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -99,7 +82,7 @@
         tools:visibility="gone" />
 
     <TextView
-        android:id="@+id/homePokemonTextError"
+        android:id="@+id/favoritePokemonTextError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_efect_click"
@@ -110,11 +93,11 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homePokemonImageError"
+        app:layout_constraintTop_toBottomOf="@+id/favoritePokemonImageError"
         tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homePokemonList"
+        android:id="@+id/favoritePokemonList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -123,8 +106,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homePokemonCardView"
-        app:spanCount="2"
+        app:layout_constraintTop_toBottomOf="@+id/favoritePokemonCardView"
+        app:spanCount="4"
         tools:listitem="@layout/list_item_pokemon"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

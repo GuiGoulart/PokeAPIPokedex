@@ -11,6 +11,7 @@ import org.koin.core.logger.Level
 
 val mainModules = listOf(
     apiModules,
+    favoriteDatabaseModules,
     serviceModules,
     baseUrlModule,
     repositoryModule,

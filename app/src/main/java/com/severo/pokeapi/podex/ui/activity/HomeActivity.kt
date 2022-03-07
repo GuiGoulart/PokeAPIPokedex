@@ -46,11 +46,11 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
     }
 
     private fun setupAdapters() {
-        binding.pokemonList.adapter = adapter
+        binding.homePokemonList.adapter = adapter
     }
 
     private fun setupListeners() {
-        binding.searchView.addTextChangedListener(object : TextWatcher {
+        binding.homeSearchView.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -59,6 +59,11 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
                 homeViewModel.onAfterTextChanged(s.toString())
             }
         })
+
+        binding.homePokemonFavorite.setOnClickListener {
+            val intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        }
     }
 
     private fun setupObservers() = homeViewModel.run {

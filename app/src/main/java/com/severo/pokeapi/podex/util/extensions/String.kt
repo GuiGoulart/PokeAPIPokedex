@@ -11,23 +11,24 @@ fun String.getPicUrl(): String {
 
 fun String.typeColorPokemon(): Int {
     return when (this) {
-        "fighting" -> R.color.fighting
-        "flying" -> R.color.flying
-        "poison" -> R.color.poison
-        "ground" -> R.color.ground
-        "rock" -> R.color.rock
         "bug" -> R.color.bug
-        "ghost" -> R.color.ghost
-        "steel" -> R.color.steel
-        "fire" -> R.color.fire
-        "water" -> R.color.water
-        "grass" -> R.color.grass
-        "electric" -> R.color.electric
-        "psychic" -> R.color.psychic
-        "ice" -> R.color.ice
-        "dragon" -> R.color.dragon
-        "fairy" -> R.color.fairy
         "dark" -> R.color.dark
+        "dragon" -> R.color.dragon
+        "electric" -> R.color.electric
+        "fairy" -> R.color.fairy
+        "fighting" -> R.color.fighting
+        "fire" -> R.color.fire
+        "flying" -> R.color.flying
+        "ghost" -> R.color.ghost
+        "grass" -> R.color.grass
+        "ground" -> R.color.ground
+        "ice" -> R.color.ice
+        "normal" -> R.color.normal
+        "poison" -> R.color.poison
+        "psychic" -> R.color.psychic
+        "rock" -> R.color.rock
+        "steel" -> R.color.steel
+        "water" -> R.color.water
         else -> R.color.white
     }
 }

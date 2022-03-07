@@ -6,7 +6,8 @@
     <string name="statistics">Estatísticas básicas</string>
     <string name="weight">Peso</string>
     <string name="height">Altura</string>
-    <string name="status">☆Status☆</string>
+    <string name="status">🌟 Status 🌟</string>
+    <string name="my_favorite_pokemons">❤ Meus pokemons favoritos ❤</string>
 
     <!-- Name Status Pokemon -->
     <string name="hp">HP</string>
@@ -19,5 +20,5 @@
 
     <!-- Erros -->
     <string name="no_name">Não encontramos o nome do pokemon</string>
-    <string name="no_search_pokemon_detail">Não conseguimos encontrar esse pokemon</string>
+    <string name="no_search_pokemon_detail">Não conseguimos encontrar esse pokemon, <b>Clique aqui, para atualizar!</b></string>
 </resources>

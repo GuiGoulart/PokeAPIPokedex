@@ -31,6 +31,7 @@ class SplashActivity : AppCompatActivity() {
             delay(1500L)
             val intent = Intent(this@SplashActivity, HomeActivity::class.java)
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@SplashActivity).toBundle())
+            finish()
         }
     }
 }

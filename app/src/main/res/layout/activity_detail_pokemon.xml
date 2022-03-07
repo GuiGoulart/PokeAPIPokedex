@@ -9,7 +9,7 @@
     tools:context=".ui.activity.DetailPokemonActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/detailsPokemonBackground"
+        android:id="@+id/homePokemonBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:alpha="0.7"
@@ -24,6 +24,7 @@
         android:id="@+id/detailsPokemonImageError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_efect_click"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

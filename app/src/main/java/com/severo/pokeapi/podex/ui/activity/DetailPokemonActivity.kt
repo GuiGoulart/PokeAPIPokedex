@@ -34,7 +34,10 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
     private var dominantColor: Int = 0
     private var picture: String = ""
-    private var pokemonResultResponse: PokemonResultResponse = PokemonResultResponse("", "")
+    private var pokemonResultResponse: PokemonResultResponse = PokemonResultResponse(1, "", "")
+    private lateinit var pokemonResultFavorite: PokemonResultResponse
+
+    private var pokemonFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,21 +48,23 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
     }
 
-    private fun init(){
+    private fun init() {
         initExtra()
         setupListeners()
         setupAdapters()
         setupObservers()
     }
-    private fun initExtra(){
+
+    private fun initExtra() {
         intent.extras?.let {
             dominantColor = it.getInt(DOMINANT_COLOR, 0)
             picture = it.getString(PICTURE, "")
             pokemonResultResponse = it.getSerializable(POKEMON_RESULT) as PokemonResultResponse
 
-            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.getPokemonDetail(url) }
+            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.setupInit(url) }
             binding.detailsPokemonTitle.text =
-                pokemonResultResponse.name?.replaceFirstChar(Char::titlecase) ?: this.getString(R.string.no_name)
+                pokemonResultResponse.name?.replaceFirstChar(Char::titlecase)
+                    ?: this.getString(R.string.no_name)
         }
     }
 
@@ -72,15 +77,19 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
         binding.detailsPokemonBack.setOnClickListener {
             onBackPressed()
         }
+
+        binding.detailsPokemonTextError?.setOnClickListener {
+            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.setupInit(url) }
+        }
     }
 
-    private fun setupObservers() {
-        detailsPokemonViewModel.pokemonDetailResultLiveData.observe(this) { singleLiveEvent ->
+    private fun setupObservers() = detailsPokemonViewModel.run {
+        pokemonDetailResultLiveData.observe(this@DetailPokemonActivity) { singleLiveEvent ->
             singleLiveEvent.getContentIfNotHandled()?.let { resource ->
                 when (resource.status) {
                     Resource.Status.SUCCESS -> {
                         val data = resource.data
-                        data?.let {
+                        data?.let { singlPokemonResponse ->
 
                             binding.detailsPokemonImageError?.visibility = View.GONE
                             binding.detailsPokemonTextError?.visibility = View.GONE
@@ -88,19 +97,31 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
                             setImageDeminantColor()
 
-                            binding.detailsPokemonHeight.text = it.height.toString()
-                            binding.detailsPokemonWeight.text = it.weight.toString()
+                            binding.detailsPokemonHeight.text =
+                                singlPokemonResponse.height.toString()
+                            binding.detailsPokemonWeight.text =
+                                singlPokemonResponse.weight.toString()
 
-                            it.types?.let { types ->
+                            singlPokemonResponse.types?.let { types ->
                                 adapterType.setList(types)
                             }
 
-                            it.stats?.let { stats ->
+                            singlPokemonResponse.stats?.let { stats ->
                                 adapterStatus.setList(stats)
                             }
 
-                            binding.detailsPokemonFavorite.setOnClickListener { _ ->
-                                detailsPokemonViewModel.onClickFavoritePokemon(it)
+                            binding.detailsPokemonFavorite.setOnClickListener {
+                                if (pokemonFavorite) {
+                                    detailsPokemonViewModel.onClickRemoveFavoritePokemon(
+                                        singlPokemonResponse,
+                                        pokemonResultFavorite
+                                    )
+                                } else {
+                                    detailsPokemonViewModel.onClickAddFavoritePokemon(
+                                        singlPokemonResponse,
+                                        pokemonResultResponse
+                                    )
+                                }
                             }
                         }
                         dismissProgressDialog()
@@ -118,19 +139,57 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
             }
         }
 
-        detailsPokemonViewModel.onClickPokemonDetailLiveData.observe(this) { singleLiveEvent ->
-            singleLiveEvent.getContentIfNotHandled()?.let { favoritePokemon ->
-                if (favoritePokemon) {
-                    binding.detailsPokemonFavorite.speed = 1f
-                    binding.detailsPokemonFavorite.playAnimation()
-                } else {
-                    binding.detailsPokemonFavorite.progress = 0F
+        insertPokemonFavorite.observe(this@DetailPokemonActivity) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let {
+                pokemonFavorite = true
+                binding.detailsPokemonFavorite.speed = 1f
+                binding.detailsPokemonFavorite.playAnimation()
+            }
+        }
+
+        removePokemonFavorite.observe(this@DetailPokemonActivity) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let {
+                pokemonFavorite = false
+                binding.detailsPokemonFavorite.progress = 0F
+                binding.detailsPokemonFavorite.pauseAnimation()
+            }
+        }
+
+        pokemonFavoriteResultLiveData.observe(this@DetailPokemonActivity) { singleLiveEvent ->
+            singleLiveEvent.getContentIfNotHandled()?.let { resource ->
+                when (resource.status) {
+                    Resource.Status.SUCCESS -> {
+                        val data = resource.data
+                        data?.let { listPokemonResult ->
+                            val resultListPokemon = listPokemonResult.filter {
+                                it.name.toString().contains(
+                                    binding.detailsPokemonTitle.text,
+                                    true
+                                )
+                            }
+                            if (resultListPokemon.isNotEmpty()) {
+                                pokemonFavorite = true
+                                binding.detailsPokemonFavorite.speed = 1f
+                                binding.detailsPokemonFavorite.playAnimation()
+                                pokemonResultFavorite = resultListPokemon.first()
+                            } else {
+                                pokemonFavorite = false
+                            }
+                        }
+                        dismissProgressDialog()
+                    }
+                    Resource.Status.LOADING -> {
+                        showProgressDialog()
+                    }
+                    Resource.Status.ERROR -> {
+                        dismissProgressDialog()
+                    }
                 }
             }
         }
     }
 
-    private fun setImageDeminantColor(){
+    private fun setImageDeminantColor() {
         Glide.with(this)
             .load(picture)
             .transition(DrawableTransitionOptions.withCrossFade())

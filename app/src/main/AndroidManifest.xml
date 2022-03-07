@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".ui.activity.FavoriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.DetailPokemonActivity"
             android:exported="false" />
         <activity

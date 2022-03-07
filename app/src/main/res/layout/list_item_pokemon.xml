@@ -33,14 +33,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/listItemLottieAnimation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_efect_click"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_rawRes="@raw/trash_bin_delete"
+                tools:visibility="gone" />
+
             <ProgressBar
                 android:id="@+id/listItemPokemonProgressCircular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/listItempokemonItemTitle"
                 app:layout_constraintEnd_toEndOf="@+id/listItemPokemonItemImage"
                 app:layout_constraintStart_toStartOf="@+id/listItemPokemonItemImage"
-                app:layout_constraintTop_toTopOf="@+id/listItemPokemonItemImage" />
+                app:layout_constraintTop_toTopOf="@+id/listItemPokemonItemImage"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/listItempokemonItemTitle"
