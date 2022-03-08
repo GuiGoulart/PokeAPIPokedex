@@ -33,25 +33,39 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/homeSearchView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="47dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:drawableStart="@drawable/ic_baseline_search"
-                android:drawablePadding="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_edit_text"
                 android:focusableInTouchMode="true"
                 android:hint="@string/search_pokemons"
                 android:imeOptions="actionSearch"
+                android:padding="12dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/homePokemonFavorite"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/homePokemonFavorite"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TextContrastCheck,TouchTargetSizeCheck"
                 tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/homeSearchClick"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/bg_search"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/homeSearchView"
+                app:layout_constraintEnd_toEndOf="@+id/homeSearchView"
+                app:layout_constraintTop_toTopOf="@+id/homeSearchView"
+                app:srcCompat="@drawable/ic_baseline_search"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/homePokemonFavorite"
@@ -60,6 +74,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/buttom_custom_favorite"
                 android:text="@string/my_favorite_pokemons"
                 app:circularflow_defaultRadius="10dp"
@@ -83,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/background_land" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/homePokemonImageError"

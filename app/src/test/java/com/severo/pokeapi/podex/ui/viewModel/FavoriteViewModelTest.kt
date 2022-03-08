@@ -3,7 +3,7 @@ package com.severo.pokeapi.podex.ui.viewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.severo.pokeapi.podex.data.repository.FavoriteRepository
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.CoroutinesTestRule
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
@@ -25,8 +25,8 @@ class FavoriteViewModelTest {
     val coroutinesTestRule = CoroutinesTestRule()
 
     private lateinit var viewModel: FavoriteViewModel
-    private val observerPokemonFavoriteResultLiveData: Observer<SingleLiveEvent<Resource<List<PokemonResultResponse>>>> = mockk(relaxed = true)
-    private val observerVavigateToDetails: Observer<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>> = mockk(relaxed = true)
+    private val observerPokemonFavoriteResultLiveData: Observer<SingleLiveEvent<Resource<List<PokemonResultModel>>>> = mockk(relaxed = true)
+    private val observerVavigateToDetails: Observer<SingleLiveEvent<Triple<PokemonResultModel, Int, String?>>> = mockk(relaxed = true)
     private val observerRemovePokemonFavorite: Observer<SingleLiveEvent<Resource<Int>>> = mockk(relaxed = true)
     private val favoriteRepository: FavoriteRepository = mockk(relaxed = true)
 
@@ -52,7 +52,7 @@ class FavoriteViewModelTest {
 
     @Test
     fun `when setupInit is call then request success`() = runBlocking {
-        val mockkPokemonResultResponse = mockk<List<PokemonResultResponse>>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<List<PokemonResultModel>>(relaxed = true)
         coEvery {
             favoriteRepository.favoriteAll()
         } returns mockkPokemonResultResponse
@@ -67,7 +67,7 @@ class FavoriteViewModelTest {
 
     @Test
     fun `when onItemDetailClick is call then navigation`() = runBlocking {
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         val mockkDominantColor = DOMINANT_COLOR
         val mockkPicture = PICTURE
         viewModel.onItemDetailClick(mockkPokemonResultResponse, mockkDominantColor, mockkPicture)
@@ -83,7 +83,7 @@ class FavoriteViewModelTest {
 
     @Test
     fun `when onItemRemoveClick is call then request fails`() = runBlocking {
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         val mockkPositionFavorite = POSITION_FAVORITE
 
         coEvery {
@@ -100,7 +100,7 @@ class FavoriteViewModelTest {
 
     @Test
     fun `when onItemRemoveClick is call then request success`() = runBlocking {
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         val mockkPositionFavorite = POSITION_FAVORITE
 
         coEvery {

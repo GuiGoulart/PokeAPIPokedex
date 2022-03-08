@@ -7,15 +7,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.databinding.ListStatusPokemonBinding
-import com.severo.pokeapi.podex.model.StatsResponse
+import com.severo.pokeapi.podex.data.model.StatsModel
 import com.severo.pokeapi.podex.util.extensions.statusColorPokemon
 import com.severo.pokeapi.podex.util.extensions.statusPokemon
 import com.severo.pokeapi.podex.util.extensions.statusValueMinMaxPokemon
 
 class PokemonStatsAdapter(var context: Context) : RecyclerView.Adapter<PokemonStatsAdapter.ViewHolder>() {
-    private var adapterList: List<StatsResponse> = emptyList()
+    private var adapterList: List<StatsModel> = emptyList()
 
-    fun setList(list: List<StatsResponse>) {
+    fun setList(list: List<StatsModel>) {
         this.adapterList = emptyList()
         this.adapterList = list
 
@@ -39,16 +39,16 @@ class PokemonStatsAdapter(var context: Context) : RecyclerView.Adapter<PokemonSt
         private val binding: ListStatusPokemonBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(types: StatsResponse) {
+        fun bind(types: StatsModel) {
             binding.apply {
-                statusTile.text = types.statResponse?.name?.let { context.resources.getString(it.statusPokemon()) }
+                statusTile.text = types.statModel?.name?.let { context.resources.getString(it.statusPokemon()) }
 
                 statusProgressView.progress = types.base_stat?.toFloat() ?: 0F
                 statusProgressView.labelText = types.base_stat.toString().statusValueMinMaxPokemon()
 
-                statusTile.setTextColor(types.statResponse?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
+                statusTile.setTextColor(types.statModel?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
                     R.color.others))
-                statusProgressView.highlightView.color = types.statResponse?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
+                statusProgressView.highlightView.color = types.statModel?.name?.let { ContextCompat.getColor(context, it.statusColorPokemon()) } ?: context.getColor(
                     R.color.others)
             }
         }

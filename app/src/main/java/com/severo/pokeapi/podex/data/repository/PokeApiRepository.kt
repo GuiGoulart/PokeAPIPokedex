@@ -3,9 +3,8 @@ package com.severo.pokeapi.podex.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.severo.pokeapi.podex.data.dataSource.PokemonDataSource
-import com.severo.pokeapi.podex.data.service.PokemonApi
-import com.severo.pokeapi.podex.model.SinglePokemonResponse
-import retrofit2.Response
+import com.severo.pokeapi.podex.data.api.PokemonApi
+import com.severo.pokeapi.podex.data.model.DetailModel
 
 class PokeApiRepository(private var pokemonApi: PokemonApi) {
 
@@ -16,7 +15,7 @@ class PokeApiRepository(private var pokemonApi: PokemonApi) {
         }
     )
 
-    suspend fun getSinglePokemon(id: Int): SinglePokemonResponse = pokemonApi.getSinglePokemon(id)
+    suspend fun getSinglePokemon(id: Int): DetailModel = pokemonApi.getSinglePokemon(id)
 
 
 }

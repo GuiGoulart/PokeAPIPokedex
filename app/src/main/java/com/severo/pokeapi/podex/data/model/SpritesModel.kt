@@ -1,8 +1,8 @@
-package com.severo.pokeapi.podex.model
+package com.severo.pokeapi.podex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SpritesResponse(
+data class SpritesModel(
     @SerializedName("back_default")
     val back_default: String?,
 

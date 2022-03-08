@@ -1,8 +1,8 @@
 package com.severo.pokeapi.podex.repository
 
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
-import com.severo.pokeapi.podex.data.service.PokemonApi
-import com.severo.pokeapi.podex.model.SinglePokemonResponse
+import com.severo.pokeapi.podex.data.api.PokemonApi
+import com.severo.pokeapi.podex.data.model.DetailModel
 import com.severo.pokeapi.podex.util.CoroutinesTestRule
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -29,7 +29,7 @@ class PokeApiRepositoryTest {
 
     @Test
     fun `when repository getSinglePokemon is call main request is successful`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
         coEvery {
             pokemonApi.getSinglePokemon(ID)
         } returns mockkSinglePokemonResponse

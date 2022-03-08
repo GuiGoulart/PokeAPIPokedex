@@ -1,16 +1,16 @@
-package com.severo.pokeapi.podex.model
+package com.severo.pokeapi.podex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SinglePokemonResponse(
+data class DetailModel(
     @SerializedName("sprites")
-    val spritesResponse: SpritesResponse?,
+    val spritesModel: SpritesModel?,
 
     @SerializedName("stats")
-    val stats: List<StatsResponse>?,
+    val stats: List<StatsModel>?,
 
     @SerializedName("types")
-    val types: List<TypesResponse>?,
+    val types: List<TypesModel>?,
 
     @SerializedName("height")
     val height: Int?,

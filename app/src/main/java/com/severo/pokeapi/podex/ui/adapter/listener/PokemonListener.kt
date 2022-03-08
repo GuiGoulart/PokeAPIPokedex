@@ -1,7 +1,7 @@
 package com.severo.pokeapi.podex.ui.adapter.listener
 
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 
 interface PokemonListener {
-    fun clickDetails(pokemonResultResponse: PokemonResultResponse, dominantColor: Int, picture: String?)
+    fun clickDetails(pokemonResultModel: PokemonResultModel, dominantColor: Int, picture: String?)
 }

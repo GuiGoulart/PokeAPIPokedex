@@ -1,19 +1,23 @@
 package com.severo.pokeapi.podex.data.repository
 
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.data.room.dao.FavoriteDao
-import com.severo.pokeapi.podex.model.PokemonResultResponse
 
 class FavoriteRepository(var favoriteDao: FavoriteDao) {
 
-    fun favoriteAll(): List<PokemonResultResponse> {
+    suspend fun favoriteAll(): List<PokemonResultModel> {
         return favoriteDao.getAll()
     }
 
-    fun insertFavorite(pokemonResultResponse: PokemonResultResponse) {
-        favoriteDao.insertFavorite(pokemonResultResponse)
+    suspend fun getPokemon(name: String): PokemonResultModel {
+        return favoriteDao.getPokemon(name)
     }
 
-    fun deleteFavorite(pokemonResultResponse: PokemonResultResponse) {
-        favoriteDao.deleteFavorite(pokemonResultResponse)
+    suspend fun insertFavorite(pokemonResultRequest: PokemonResultModel) {
+        favoriteDao.insertFavorite(pokemonResultRequest)
+    }
+
+    suspend fun deleteFavorite(pokemonResultRequest: PokemonResultModel) {
+        favoriteDao.deleteFavorite(pokemonResultRequest)
     }
 }

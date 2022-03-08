@@ -3,9 +3,10 @@ package com.severo.pokeapi.podex.ui.activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.severo.pokeapi.podex.data.base.BaseAppCompatActivity
 import com.severo.pokeapi.podex.databinding.ActivityFavoriteBinding
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.ui.adapter.FavoriteAdapter
 import com.severo.pokeapi.podex.ui.viewModel.FavoriteViewModel
 import com.severo.pokeapi.podex.util.DOMINANT_COLOR
@@ -21,7 +22,7 @@ class FavoriteActivity : BaseAppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by inject()
 
     private val favoriteAdapter: FavoriteAdapter by lazy {
-        FavoriteAdapter(this, ::onDetailsClick, ::onDeleteClick)
+        FavoriteAdapter(this, ::onDetailsClick, ::onDeleteClick, ::onEmptySize)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +66,18 @@ class FavoriteActivity : BaseAppCompatActivity() {
                 when (resource.status) {
                     Resource.Status.SUCCESS -> {
                         val data = resource.data
-                        data?.let {
-                            favoriteAdapter.setList(it)
+                        data?.let { listPokemonResult ->
+                            if(listPokemonResult.isNotEmpty()){
+                                binding.favoritePokemonImageError.visibility = View.GONE
+                                binding.favoritePokemonTextError.visibility = View.GONE
+                                binding.favoritePokemonList.visibility = View.VISIBLE
+                                favoriteAdapter.setList(listPokemonResult)
+                            }else{
+                                binding.favoritePokemonImageError.visibility = View.VISIBLE
+                                binding.favoritePokemonTextError.visibility = View.VISIBLE
+                                binding.favoritePokemonList.visibility = View.GONE
+                            }
+
                         }
                         dismissProgressDialog()
                     }
@@ -113,21 +124,27 @@ class FavoriteActivity : BaseAppCompatActivity() {
     }
 
     private fun onDetailsClick(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         dominantColor: Int,
         picture: String?
     ) {
         favoriteViewModel.onItemDetailClick(
-            pokemonResultResponse,
+            pokemonResultModel,
             dominantColor,
             picture
         )
     }
 
     private fun onDeleteClick(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         positionFavorite: Int
     ) {
-        favoriteViewModel.onItemRemoveClick(pokemonResultResponse, positionFavorite)
+        favoriteViewModel.onItemRemoveClick(pokemonResultModel, positionFavorite)
+    }
+
+    private fun onEmptySize() {
+        binding.favoritePokemonImageError.visibility = View.VISIBLE
+        binding.favoritePokemonTextError.visibility = View.VISIBLE
+        binding.favoritePokemonList.visibility = View.GONE
     }
 }

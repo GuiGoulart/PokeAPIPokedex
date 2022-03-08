@@ -1,8 +1,8 @@
 package com.severo.pokeapi.podex.di
 
 import com.severo.pokeapi.podex.BuildConfig
-import com.severo.pokeapi.podex.data.service.BeeceptorApi
-import com.severo.pokeapi.podex.data.service.PokemonApi
+import com.severo.pokeapi.podex.data.api.BeeceptorApi
+import com.severo.pokeapi.podex.data.api.PokemonApi
 import com.severo.pokeapi.podex.util.*
 import okhttp3.CacheControl
 import okhttp3.Interceptor

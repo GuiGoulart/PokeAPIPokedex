@@ -6,11 +6,13 @@
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable-hdpi/ic_arrow.xml" value="0.2985" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable-xxxhdpi/bg_efect_click.xml" value="0.2985" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable-xxxhdpi/ic_baseline_search.xml" value="0.2985" />
+        <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable/bg_edit_text.xml" value="0.309" />
+        <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable/bg_search.xml" value="0.309" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable/buttom_custom_favorite.xml" value="0.309" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/drawable/progress_bar.xml" value="0.22" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/activity_detail_pokemon.xml" value="0.25" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/activity_favorite.xml" value="0.25" />
-        <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/activity_home.xml" value="0.33" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/activity_splash.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-land/ic_pokeball.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/guise/AndroidStudioProjects/PokAPIPokdex/app/src/main/res/layout-square/activity_detail_pokemon.xml" value="0.3625" />

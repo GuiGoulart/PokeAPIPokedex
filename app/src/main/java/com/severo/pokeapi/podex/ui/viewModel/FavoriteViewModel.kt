@@ -3,34 +3,38 @@ package com.severo.pokeapi.podex.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import com.severo.pokeapi.podex.data.base.BaseViewModel
 import com.severo.pokeapi.podex.data.repository.FavoriteRepository
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(
-    var favoriteRepository: FavoriteRepository,
-    val coroutinesDispatcher: CoroutineDispatcher
+    private var favoriteRepository: FavoriteRepository,
+    private val coroutinesDispatcher: CoroutineDispatcher
 ) : BaseViewModel() {
 
-    val pokemonFavoriteResultLiveData = MutableLiveData<SingleLiveEvent<Resource<List<PokemonResultResponse>>>>()
-    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>>()
+    val pokemonFavoriteResultLiveData = MutableLiveData<SingleLiveEvent<Resource<List<PokemonResultModel>>>>()
+    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultModel, Int, String?>>>()
     val removePokemonFavorite = MutableLiveData<SingleLiveEvent<Resource<Int>>>()
 
     fun setupInit(){
         getPokemonFavorite()
     }
 
+    fun afterDeletingCatchAllFavoritePokemons(){
+        getPokemonFavorite()
+    }
+
     fun onItemDetailClick(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         dominantColor: Int,
         picture: String?
     ) {
         navigateToDetails.postValue(
             SingleLiveEvent(
                 Triple(
-                    pokemonResultResponse,
+                    pokemonResultModel,
                     dominantColor,
                     picture
                 )
@@ -39,17 +43,17 @@ class FavoriteViewModel(
     }
 
     fun onItemRemoveClick(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         positionFavorite: Int
     ) {
-        removePokemonFavorite(pokemonResultResponse, positionFavorite)
+        removePokemonFavorite(pokemonResultModel, positionFavorite)
     }
 
-    private fun removePokemonFavorite(pokemonResultResponse: PokemonResultResponse, positionFavorite: Int) {
+    private fun removePokemonFavorite(pokemonResultModel: PokemonResultModel, positionFavorite: Int) {
         viewModelScope.launch(coroutinesDispatcher) {
             removePokemonFavorite.postValue(SingleLiveEvent(Resource.loading()))
             try {
-                favoriteRepository.deleteFavorite(pokemonResultResponse).apply {
+                favoriteRepository.deleteFavorite(pokemonResultModel).apply {
                     removePokemonFavorite.postValue(SingleLiveEvent(Resource.success(positionFavorite)))
                 }
             }catch (e: Exception){

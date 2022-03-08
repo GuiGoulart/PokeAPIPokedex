@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.severo.pokeapi.podex.databinding.ListTypePokemonBinding
-import com.severo.pokeapi.podex.model.TypesResponse
+import com.severo.pokeapi.podex.data.model.TypesModel
 import com.severo.pokeapi.podex.util.extensions.typeColorPokemon
 
 class PokemonTypeAdapter(var context: Context) : RecyclerView.Adapter<PokemonTypeAdapter.ViewHolder>() {
-    private var adapterList: List<TypesResponse> = emptyList()
+    private var adapterList: List<TypesModel> = emptyList()
 
-    fun setList(list: List<TypesResponse>) {
+    fun setList(list: List<TypesModel>) {
         this.adapterList = emptyList()
         this.adapterList = list
 
@@ -35,12 +35,12 @@ class PokemonTypeAdapter(var context: Context) : RecyclerView.Adapter<PokemonTyp
         private val binding: ListTypePokemonBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(typesResponse: TypesResponse) {
+        fun bind(typesModel: TypesModel) {
             binding.apply {
-                typePoke.text = typesResponse.typeResponse?.name.toString()
+                typePoke.text = typesModel.typeModel?.name.toString()
                 typeCardView.setCardBackgroundColor(
                     context.getColor(
-                        typesResponse.typeResponse?.name.toString().typeColorPokemon()
+                        typesModel.typeModel?.name.toString().typeColorPokemon()
                     )
                 )
             }

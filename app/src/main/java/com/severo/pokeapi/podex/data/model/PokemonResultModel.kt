@@ -1,4 +1,4 @@
-package com.severo.pokeapi.podex.model
+package com.severo.pokeapi.podex.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = "pokemon_result")
-data class PokemonResultResponse(
+data class PokemonResultModel(
 
     @PrimaryKey(autoGenerate = true)
     var id: Int?,

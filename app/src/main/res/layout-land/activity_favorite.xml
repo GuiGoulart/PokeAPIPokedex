@@ -24,34 +24,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_efect_click"
                 android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/favoriteSearchView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:drawableStart="@drawable/ic_baseline_search"
-                android:drawablePadding="10dp"
-                android:focusableInTouchMode="true"
-                android:hint="@string/search_pokemons"
-                android:imeOptions="actionSearch"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="15sp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/favoritePokemonBack"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/favoritePokemonBack"
-                app:layout_constraintTop_toTopOf="@+id/favoritePokemonBack"
-                tools:ignore="TextContrastCheck,TouchTargetSizeCheck"
-                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/background_land" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/favoritePokemonImageError"

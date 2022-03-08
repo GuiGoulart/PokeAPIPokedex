@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import com.severo.pokeapi.podex.data.base.BaseViewModel
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,26 +16,26 @@ class HomeViewModel(
     private val coroutinesDispatcher: CoroutineDispatcher
 ) : BaseViewModel() {
 
-    val pokemonResultLiveData = MutableLiveData<SingleLiveEvent<Resource<PagingData<PokemonResultResponse>>>>()
-    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>>()
+    val pokemonResultLiveData = MutableLiveData<SingleLiveEvent<Resource<PagingData<PokemonResultModel>>>>()
+    val navigateToDetails = MutableLiveData<SingleLiveEvent<Triple<PokemonResultModel, Int, String?>>>()
 
     fun setup() {
         getPokemons(null)
     }
 
-    fun onAfterTextChanged(searchString: String) {
+    fun onAfterTextChanged(searchString: String?) {
         getPokemons(searchString)
     }
 
     fun onItemDetailClick(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         dominantColor: Int,
         picture: String?
     ) {
         navigateToDetails.postValue(
             SingleLiveEvent(
                 Triple(
-                    pokemonResultResponse,
+                    pokemonResultModel,
                     dominantColor,
                     picture
                 )

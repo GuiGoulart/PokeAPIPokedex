@@ -18,17 +18,17 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.databinding.ListItemPokemonBinding
-import com.severo.pokeapi.podex.model.PokemonResultResponse
-import com.severo.pokeapi.podex.ui.adapter.listener.FavoriteListener
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.extensions.getPicUrl
 
 class FavoriteAdapter(
     var context: Context,
-    var onDetailsClick: (PokemonResultResponse, Int, String?) -> Unit,
-    var onDeleteClick: (PokemonResultResponse, Int) -> Unit): RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
-    private var adapterList: MutableList<PokemonResultResponse>? = null
+    var onDetailsClick: (PokemonResultModel, Int, String?) -> Unit,
+    var onDeleteClick: (PokemonResultModel, Int) -> Unit,
+    var onEmptySize: () -> Unit): RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
+    private var adapterList: MutableList<PokemonResultModel>? = null
 
-    fun setList(list: List<PokemonResultResponse>) {
+    fun setList(list: List<PokemonResultModel>) {
         this.adapterList = list.toMutableList()
         notifyDataSetChanged()
     }
@@ -36,6 +36,9 @@ class FavoriteAdapter(
     fun removeItem(position: Int) {
         this.adapterList?.removeAt(position)
         notifyItemRemoved(position)
+        if(this.adapterList?.isEmpty() == true){
+            onEmptySize.invoke()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteAdapter.ViewHolder {
@@ -47,7 +50,7 @@ class FavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind((adapterList?.get(position) ?: emptyList<PokemonResultResponse>()) as PokemonResultResponse, position)
+        holder.bind((adapterList?.get(position) ?: emptyList<PokemonResultModel>()) as PokemonResultModel)
     }
 
     inner class ViewHolder(
@@ -57,7 +60,7 @@ class FavoriteAdapter(
         var dominantColor: Int = 0
         private var picture: String? = ""
 
-        fun bind(pokemonFavoite: PokemonResultResponse, position: Int) {
+        fun bind(pokemonFavoite: PokemonResultModel ) {
             binding.apply {
                 listItemLottieAnimation.visibility = View.VISIBLE
                 listItempokemonItemTitle.text =
@@ -71,13 +74,13 @@ class FavoriteAdapter(
                 listItemLottieAnimation.setOnClickListener {
                     listItemLottieAnimation.speed = 1f
                     listItemLottieAnimation.playAnimation()
-                    onDeleteClick.invoke(pokemonFavoite, position)
+                    onDeleteClick.invoke(pokemonFavoite, bindingAdapterPosition)
                 }
             }
         }
 
-        private fun loadImage(binding: ListItemPokemonBinding, pokemonResultResponse: PokemonResultResponse) {
-            picture = pokemonResultResponse.url?.getPicUrl()
+        private fun loadImage(binding: ListItemPokemonBinding, pokemonResultModel: PokemonResultModel) {
+            picture = pokemonResultModel.url?.getPicUrl()
 
             binding.apply {
                 Glide.with(root)

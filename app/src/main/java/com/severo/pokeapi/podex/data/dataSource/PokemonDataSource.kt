@@ -2,24 +2,24 @@ package com.severo.pokeapi.podex.data.dataSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.severo.pokeapi.podex.data.service.PokemonApi
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.api.PokemonApi
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.SEARCH_LOAD_SIZE
 import com.severo.pokeapi.podex.util.STARTING_OFFSET_INDEX
 import java.io.IOException
 
 class PokemonDataSource(private val pokemonApi: PokemonApi, private val searchString: String?) :
-    PagingSource<Int, PokemonResultResponse>() {
+    PagingSource<Int, PokemonResultModel>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonResultResponse> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonResultModel> {
         val offset = params.key ?: STARTING_OFFSET_INDEX
         val loadSize = if (searchString == null) params.loadSize else SEARCH_LOAD_SIZE
         return try {
             val data = pokemonApi.getPokemons(loadSize, offset)
             val filteredData = if (searchString != null) {
-                data.resultResponses.filter { it.name?.contains(searchString, true) ?: false }
+                data.resultRespons.filter { it.name?.contains(searchString, true) ?: false }
             } else {
-                data.resultResponses
+                data.resultRespons
             }
             LoadResult.Page(
                 data = filteredData,
@@ -35,7 +35,7 @@ class PokemonDataSource(private val pokemonApi: PokemonApi, private val searchSt
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, PokemonResultResponse>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, PokemonResultModel>): Int? {
         return state.anchorPosition
     }
 }

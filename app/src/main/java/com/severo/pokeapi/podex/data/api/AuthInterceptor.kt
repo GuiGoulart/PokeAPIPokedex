@@ -1,4 +1,4 @@
-package com.severo.pokeapi.podex.data.service
+package com.severo.pokeapi.podex.data.api
 
 import okhttp3.Interceptor
 import okhttp3.Response

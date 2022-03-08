@@ -19,13 +19,13 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.databinding.ListItemPokemonBinding
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.ui.adapter.listener.PokemonListener
 import com.severo.pokeapi.podex.util.NETWORK_VIEW_TYPE
 import com.severo.pokeapi.podex.util.PRODUCT_VIEW_TYPE
 import com.severo.pokeapi.podex.util.extensions.getPicUrl
 
-class PokemonAdapter(var context: Context, var pokemonListener: PokemonListener) : PagingDataAdapter<PokemonResultResponse, PokemonAdapter.ViewHolder>(PokemonDiffCallback()) {
+class PokemonAdapter(var context: Context, var pokemonListener: PokemonListener) : PagingDataAdapter<PokemonResultModel, PokemonAdapter.ViewHolder>(PokemonDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)!!
@@ -47,20 +47,20 @@ class PokemonAdapter(var context: Context, var pokemonListener: PokemonListener)
         var dominantColor: Int = 0
         private var picture: String? = ""
 
-        fun bind(pokemonResultResponse: PokemonResultResponse) {
+        fun bind(pokemonResultModel: PokemonResultModel) {
             binding.apply {
                 listItempokemonItemTitle.text =
-                    pokemonResultResponse.name?.replaceFirstChar(Char::titlecase) ?: context.getString(R.string.no_name)
-                loadImage(this, pokemonResultResponse )
+                    pokemonResultModel.name?.replaceFirstChar(Char::titlecase) ?: context.getString(R.string.no_name)
+                loadImage(this, pokemonResultModel )
 
                 listItemPokemonCardView.setOnClickListener {
-                    pokemonListener.clickDetails(pokemonResultResponse, dominantColor, picture)
+                    pokemonListener.clickDetails(pokemonResultModel, dominantColor, picture)
                 }
             }
         }
 
-        private fun loadImage(binding: ListItemPokemonBinding, pokemonResultResponse: PokemonResultResponse) {
-            picture = pokemonResultResponse.url?.getPicUrl()
+        private fun loadImage(binding: ListItemPokemonBinding, pokemonResultModel: PokemonResultModel) {
+            picture = pokemonResultModel.url?.getPicUrl()
 
             binding.apply {
                 Glide.with(root)
@@ -105,12 +105,12 @@ class PokemonAdapter(var context: Context, var pokemonListener: PokemonListener)
         }
     }
 
-    private class PokemonDiffCallback : DiffUtil.ItemCallback<PokemonResultResponse>() {
-        override fun areItemsTheSame(oldItem: PokemonResultResponse, newItem: PokemonResultResponse): Boolean {
+    private class PokemonDiffCallback : DiffUtil.ItemCallback<PokemonResultModel>() {
+        override fun areItemsTheSame(oldItem: PokemonResultModel, newItem: PokemonResultModel): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: PokemonResultResponse, newItem: PokemonResultResponse): Boolean {
+        override fun areContentsTheSame(oldItem: PokemonResultModel, newItem: PokemonResultModel): Boolean {
             return oldItem == newItem
         }
     }

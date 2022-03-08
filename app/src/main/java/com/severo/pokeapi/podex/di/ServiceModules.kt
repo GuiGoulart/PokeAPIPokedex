@@ -1,6 +1,6 @@
 package com.severo.pokeapi.podex.di
 
-import com.severo.pokeapi.podex.data.service.AuthInterceptor
+import com.severo.pokeapi.podex.data.api.AuthInterceptor
 import com.severo.pokeapi.podex.util.BEECEPTOR_API_BASE_URL
 import com.severo.pokeapi.podex.util.BEECEPTOR_API_RETROFIT
 import com.severo.pokeapi.podex.util.POKE_API_BASE_URL

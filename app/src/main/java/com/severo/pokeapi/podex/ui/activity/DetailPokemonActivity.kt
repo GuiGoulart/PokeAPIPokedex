@@ -14,7 +14,7 @@ import com.bumptech.glide.request.target.Target
 import com.severo.pokeapi.podex.R
 import com.severo.pokeapi.podex.data.base.BaseAppCompatActivity
 import com.severo.pokeapi.podex.databinding.ActivityDetailPokemonBinding
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.ui.adapter.PokemonStatsAdapter
 import com.severo.pokeapi.podex.ui.adapter.PokemonTypeAdapter
 import com.severo.pokeapi.podex.ui.viewModel.DetailsPokemonViewModel
@@ -34,8 +34,8 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
 
     private var dominantColor: Int = 0
     private var picture: String = ""
-    private var pokemonResultResponse: PokemonResultResponse = PokemonResultResponse(1, "", "")
-    private lateinit var pokemonResultFavorite: PokemonResultResponse
+    private var pokemonResultModel: PokemonResultModel = PokemonResultModel(1, "", "")
+    private lateinit var pokemonResultFavorite: PokemonResultModel
 
     private var pokemonFavorite: Boolean = false
 
@@ -59,11 +59,11 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
         intent.extras?.let {
             dominantColor = it.getInt(DOMINANT_COLOR, 0)
             picture = it.getString(PICTURE, "")
-            pokemonResultResponse = it.getSerializable(POKEMON_RESULT) as PokemonResultResponse
+            pokemonResultModel = it.getSerializable(POKEMON_RESULT) as PokemonResultModel
 
-            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.setupInit(url) }
+            pokemonResultModel.url?.let { url -> detailsPokemonViewModel.setupInit(url, pokemonResultModel.name.toString().replaceFirstChar(Char::lowercase)) }
             binding.detailsPokemonTitle.text =
-                pokemonResultResponse.name?.replaceFirstChar(Char::titlecase)
+                pokemonResultModel.name?.replaceFirstChar(Char::titlecase)
                     ?: this.getString(R.string.no_name)
         }
     }
@@ -79,7 +79,7 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
         }
 
         binding.detailsPokemonTextError?.setOnClickListener {
-            pokemonResultResponse.url?.let { url -> detailsPokemonViewModel.setupInit(url) }
+            pokemonResultModel.url?.let { url -> detailsPokemonViewModel.setupInit(url, pokemonResultModel.name.toString().replaceFirstChar(Char::lowercase)) }
         }
     }
 
@@ -119,7 +119,7 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                                 } else {
                                     detailsPokemonViewModel.onClickAddFavoritePokemon(
                                         singlPokemonResponse,
-                                        pokemonResultResponse
+                                        pokemonResultModel
                                     )
                                 }
                             }
@@ -161,20 +161,10 @@ class DetailPokemonActivity : BaseAppCompatActivity() {
                     Resource.Status.SUCCESS -> {
                         val data = resource.data
                         data?.let { listPokemonResult ->
-                            val resultListPokemon = listPokemonResult.filter {
-                                it.name.toString().contains(
-                                    binding.detailsPokemonTitle.text,
-                                    true
-                                )
-                            }
-                            if (resultListPokemon.isNotEmpty()) {
                                 pokemonFavorite = true
                                 binding.detailsPokemonFavorite.speed = 1f
                                 binding.detailsPokemonFavorite.playAnimation()
-                                pokemonResultFavorite = resultListPokemon.first()
-                            } else {
-                                pokemonFavorite = false
-                            }
+                                pokemonResultFavorite = listPokemonResult
                         }
                         dismissProgressDialog()
                     }

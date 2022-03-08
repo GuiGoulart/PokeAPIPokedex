@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.severo.pokeapi.podex.data.service.PokemonApi
+import com.severo.pokeapi.podex.data.api.PokemonApi
 import com.severo.pokeapi.podex.util.CONNECT_TIMEOUT
 import com.severo.pokeapi.podex.util.READ_TIMEOUT
 import com.severo.pokeapi.podex.util.WRITE_TIMEOUT
@@ -70,13 +70,13 @@ class NetworkCallTest {
     @Test
     fun test_response_name() = runBlocking {
         val data = apiService.getPokemons(1, 0)
-        ViewMatchers.assertThat(data.resultResponses[0].name, CoreMatchers.equalTo("bulbasaur"))
+        ViewMatchers.assertThat(data.resultRespons[0].name, CoreMatchers.equalTo("bulbasaur"))
     }
 
     @Test
     fun test_id_extraction() = runBlocking {
         val data = apiService.getPokemons(1, 0)
-        val id = data.resultResponses[0].url?.substringAfter("pokemon")?.replace("/", "")?.toInt()
+        val id = data.resultRespons[0].url?.substringAfter("pokemon")?.replace("/", "")?.toInt()
         ViewMatchers.assertThat(id, CoreMatchers.equalTo(1))
     }
 }

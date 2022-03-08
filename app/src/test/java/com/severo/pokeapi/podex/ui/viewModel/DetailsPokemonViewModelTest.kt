@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import com.severo.pokeapi.podex.data.repository.BeeceptorRepository
 import com.severo.pokeapi.podex.data.repository.FavoriteRepository
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
-import com.severo.pokeapi.podex.model.PokemonResultResponse
-import com.severo.pokeapi.podex.model.SinglePokemonResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
+import com.severo.pokeapi.podex.data.model.DetailModel
 import com.severo.pokeapi.podex.util.CoroutinesTestRule
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
@@ -29,11 +29,11 @@ class DetailsPokemonViewModelTest {
 
     private lateinit var viewModel: DetailsPokemonViewModel
 
-    private val observerPokemonDetailResultLiveData: Observer<SingleLiveEvent<Resource<SinglePokemonResponse>>> = mockk(relaxed = true)
+    private val observerPokemonDetailResultLiveData: Observer<SingleLiveEvent<Resource<DetailModel>>> = mockk(relaxed = true)
     private val observerBeeceptorResultLiveData: Observer<SingleLiveEvent<Resource<Unit>>> = mockk(relaxed = true)
     private val observerInsertPokemonFavorite: Observer<SingleLiveEvent<Resource<Unit>>> = mockk(relaxed = true)
     private val observerRemovePokemonFavorite: Observer<SingleLiveEvent<Resource<Unit>>> = mockk(relaxed = true)
-    private val observerPokemonFavoriteResultLiveData: Observer<SingleLiveEvent<Resource<List<PokemonResultResponse>>>> = mockk(relaxed = true)
+    private val observerPokemonFavoriteResultLiveData: Observer<SingleLiveEvent<Resource<PokemonResultModel>>> = mockk(relaxed = true)
 
     private val pokemonApiRepository: PokeApiRepository = mockk(relaxed = true)
     private val beeceptorRepository: BeeceptorRepository = mockk(relaxed = true)
@@ -61,7 +61,7 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when getPokemonDetail is call then request success`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
         coEvery {
             pokemonApiRepository.getSinglePokemon(1)
         } returns mockkSinglePokemonResponse
@@ -76,7 +76,7 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when postBeeceptor is call then request success`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
         coEvery {
             beeceptorRepository.postWebhookBeeceptor(mockkSinglePokemonResponse)
         } just runs
@@ -91,8 +91,8 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when onClickAddFavoritePokemon is call then request success`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         coEvery {
             favoriteRepository.insertFavorite(mockkPokemonResultResponse)
         } just runs
@@ -107,8 +107,8 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when onClickAddFavoritePokemon is call then request fails`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         coEvery {
             favoriteRepository.insertFavorite(mockkPokemonResultResponse)
         } throws SocketTimeoutException()
@@ -123,8 +123,8 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when onClickRemoveFavoritePokemon is call then request success`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         coEvery {
             favoriteRepository.deleteFavorite(mockkPokemonResultResponse)
         } just runs
@@ -139,12 +139,12 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when setupInit is call then request success`() = runBlocking {
-        val mockkListPokemonResultResponse = mockk<List<PokemonResultResponse>>(relaxed = true)
+        val mockkListPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         coEvery {
-            favoriteRepository.favoriteAll()
+            favoriteRepository.getPokemon(NAME)
         } returns mockkListPokemonResultResponse
 
-        viewModel.setupInit(URL)
+        viewModel.setupInit(URL, NAME)
 
         coVerifyOrder {
             observerPokemonFavoriteResultLiveData.onChanged(SingleLiveEvent(Resource.success(mockkListPokemonResultResponse)))
@@ -153,8 +153,8 @@ class DetailsPokemonViewModelTest {
 
     @Test
     fun `when getPokemonFavorite is call then request success`() = runBlocking {
-        val mockkSinglePokemonResponse = mockk<SinglePokemonResponse>(relaxed = true)
-        val mockkPokemonResultResponse = mockk<PokemonResultResponse>(relaxed = true)
+        val mockkSinglePokemonResponse = mockk<DetailModel>(relaxed = true)
+        val mockkPokemonResultResponse = mockk<PokemonResultModel>(relaxed = true)
         coEvery {
             favoriteRepository.deleteFavorite(mockkPokemonResultResponse)
         } throws SocketTimeoutException()
@@ -177,5 +177,6 @@ class DetailsPokemonViewModelTest {
 
     private companion object {
         const val URL = "https://pokeapi.co/api/v2/pokemon/1"
+        const val NAME = "bulbasauro"
     }
 }

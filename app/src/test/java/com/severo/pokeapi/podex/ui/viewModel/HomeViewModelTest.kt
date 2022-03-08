@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.paging.PagingData
 import com.severo.pokeapi.podex.data.repository.PokeApiRepository
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.util.CoroutinesTestRule
 import com.severo.pokeapi.podex.util.Resource
 import com.severo.pokeapi.podex.util.SingleLiveEvent
@@ -28,9 +28,9 @@ class HomeViewModelTest {
     val coroutinesTestRule = CoroutinesTestRule()
 
     private lateinit var viewModel: HomeViewModel
-    private val observerPokemonResult: Observer<SingleLiveEvent<Resource<PagingData<PokemonResultResponse>>>> =
+    private val observerPokemonResult: Observer<SingleLiveEvent<Resource<PagingData<PokemonResultModel>>>> =
         mockk(relaxed = true)
-    private val observerNavigateToDetails: Observer<SingleLiveEvent<Triple<PokemonResultResponse, Int, String?>>> =
+    private val observerNavigateToDetails: Observer<SingleLiveEvent<Triple<PokemonResultModel, Int, String?>>> =
         mockk(relaxed = true)
     private val pokemonApiRepository: PokeApiRepository = mockk(relaxed = true)
 
@@ -56,7 +56,7 @@ class HomeViewModelTest {
 
     @Test
     fun `when onAfterTextChanged is call then request succeeds`() = runBlocking {
-        val pagingDataResultMock = mockk<PagingData<PokemonResultResponse>>(relaxed = true)
+        val pagingDataResultMock = mockk<PagingData<PokemonResultModel>>(relaxed = true)
         val flowPagingDataMock = flowOf(pagingDataResultMock)
         coEvery {
             pokemonApiRepository.getPokemon(SEARCH)
@@ -76,7 +76,7 @@ class HomeViewModelTest {
 
     @Test
     fun `when onItemDetailClick is call then request succeeds`() {
-        val pokemonResultResponse = mockkClass(PokemonResultResponse::class)
+        val pokemonResultResponse = mockkClass(PokemonResultModel::class)
         viewModel.onItemDetailClick(pokemonResultResponse, 1, null)
 
         verify {

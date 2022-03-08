@@ -19,37 +19,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/homePokemonBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/bg_efect_click"
-                android:src="@drawable/ic_arrow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/homeSearchView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:drawableStart="@drawable/ic_baseline_search"
-                android:drawablePadding="10dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_edit_text"
                 android:focusableInTouchMode="true"
                 android:hint="@string/search_pokemons"
                 android:imeOptions="actionSearch"
+                android:padding="12dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/homePokemonBack"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/homePokemonBack"
-                app:layout_constraintTop_toTopOf="@+id/homePokemonBack"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TextContrastCheck,TouchTargetSizeCheck"
                 tools:visibility="visible" />
 
@@ -69,6 +57,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/homeSearchView" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/homeSearchClick"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/bg_search"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/homeSearchView"
+                app:layout_constraintEnd_toEndOf="@+id/homeSearchView"
+                app:layout_constraintTop_toTopOf="@+id/homeSearchView"
+                app:srcCompat="@drawable/ic_baseline_search"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

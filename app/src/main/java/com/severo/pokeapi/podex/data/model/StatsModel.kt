@@ -1,8 +1,8 @@
-package com.severo.pokeapi.podex.model
+package com.severo.pokeapi.podex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class StatsResponse(
+data class StatsModel(
     @SerializedName("base_stat")
     val base_stat: Int?,
 
@@ -10,5 +10,5 @@ data class StatsResponse(
     val effort: Int?,
 
     @SerializedName("stat")
-    val statResponse: StatResponse?
+    val statModel: StatModel?
 )

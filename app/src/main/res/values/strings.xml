@@ -20,5 +20,6 @@
 
     <!-- Erros -->
     <string name="no_name">Não encontramos o nome do pokemon</string>
-    <string name="no_search_pokemon_detail">Não conseguimos encontrar esse pokemon, <b>Clique aqui, para atualizar!</b></string>
+    <string name="no_search_pokemon_detail">Não conseguimos encontrar esse pokemon</string>
+    <string name="no_pokemon_favorite">Você ainda não tem pokemon favorito\nNão perca tempo e favorite seus pokemons</string>
 </resources>

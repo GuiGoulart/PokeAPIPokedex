@@ -5,10 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.severo.pokeapi.podex.data.base.BaseAppCompatActivity
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 import com.severo.pokeapi.podex.databinding.ActivityHomeBinding
-import com.severo.pokeapi.podex.model.PokemonResultResponse
 import com.severo.pokeapi.podex.ui.adapter.PokemonAdapter
 import com.severo.pokeapi.podex.ui.adapter.listener.PokemonListener
 import com.severo.pokeapi.podex.ui.viewModel.HomeViewModel
@@ -16,6 +17,8 @@ import com.severo.pokeapi.podex.util.DOMINANT_COLOR
 import com.severo.pokeapi.podex.util.PICTURE
 import com.severo.pokeapi.podex.util.POKEMON_RESULT
 import com.severo.pokeapi.podex.util.Resource
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -51,14 +54,20 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
 
     private fun setupListeners() {
         binding.homeSearchView.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(s.toString().isEmpty()){
+                    homeViewModel.onAfterTextChanged(null)
+                }
+            }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun afterTextChanged(s: Editable) {
-                homeViewModel.onAfterTextChanged(s.toString())
-            }
+            override fun afterTextChanged(s: Editable) {}
         })
+
+        binding.homeSearchClick.setOnClickListener {
+            homeViewModel.onAfterTextChanged(binding.homeSearchView.text.toString())
+        }
 
         binding.homePokemonFavorite.setOnClickListener {
             val intent = Intent(this, FavoriteActivity::class.java)
@@ -74,7 +83,24 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
                         val data = resource.data
                         data?.let {
                             this@HomeActivity.lifecycleScope.launch {
-                                adapter.submitData(it)
+                                lifecycleScope.launch {
+                                    adapter.submitData(it)
+                                    adapter.loadStateFlow.collectLatest {
+                                        delay(1500L)
+                                        when(adapter.itemCount){
+                                            0 -> {
+                                                binding.homePokemonImageError.visibility = View.VISIBLE
+                                                binding.homePokemonTextError.visibility = View.VISIBLE
+                                                binding.homePokemonList.visibility = View.GONE
+                                            }
+                                            else -> {
+                                                binding.homePokemonImageError.visibility = View.GONE
+                                                binding.homePokemonTextError.visibility = View.GONE
+                                                binding.homePokemonList.visibility = View.VISIBLE
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                         dismissProgressDialog()
@@ -102,12 +128,12 @@ class HomeActivity : BaseAppCompatActivity(), PokemonListener {
     }
 
     override fun clickDetails(
-        pokemonResultResponse: PokemonResultResponse,
+        pokemonResultModel: PokemonResultModel,
         dominantColor: Int,
         picture: String?
     ) {
         homeViewModel.onItemDetailClick(
-            pokemonResultResponse,
+            pokemonResultModel,
             dominantColor,
             picture
         )

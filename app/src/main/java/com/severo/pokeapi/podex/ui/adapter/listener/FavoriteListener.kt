@@ -1,8 +1,8 @@
 package com.severo.pokeapi.podex.ui.adapter.listener
 
-import com.severo.pokeapi.podex.model.PokemonResultResponse
+import com.severo.pokeapi.podex.data.model.PokemonResultModel
 
 interface FavoriteListener {
-    fun clickDetails(pokemonResultResponse: PokemonResultResponse, dominantColor: Int, picture: String?)
-    fun clickDelete(pokemonResultResponse: PokemonResultResponse, positionFavorite: Int)
+    fun clickDetails(pokemonResultModel: PokemonResultModel, dominantColor: Int, picture: String?)
+    fun clickDelete(pokemonResultModel: PokemonResultModel, positionFavorite: Int)
 }
