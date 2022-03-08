@@ -7,7 +7,6 @@ import com.severo.pokeapi.podex.data.base.BaseAppCompatActivity
 import com.severo.pokeapi.podex.databinding.ActivityFavoriteBinding
 import com.severo.pokeapi.podex.model.PokemonResultResponse
 import com.severo.pokeapi.podex.ui.adapter.FavoriteAdapter
-import com.severo.pokeapi.podex.ui.adapter.listener.FavoriteListener
 import com.severo.pokeapi.podex.ui.viewModel.FavoriteViewModel
 import com.severo.pokeapi.podex.util.DOMINANT_COLOR
 import com.severo.pokeapi.podex.util.PICTURE
@@ -15,14 +14,14 @@ import com.severo.pokeapi.podex.util.POKEMON_RESULT
 import com.severo.pokeapi.podex.util.Resource
 import org.koin.android.ext.android.inject
 
-class FavoriteActivity : BaseAppCompatActivity(), FavoriteListener {
+class FavoriteActivity : BaseAppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
 
     private val favoriteViewModel: FavoriteViewModel by inject()
 
     private val favoriteAdapter: FavoriteAdapter by lazy {
-        FavoriteAdapter(this, this)
+        FavoriteAdapter(this, ::onDetailsClick, ::onDeleteClick)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +112,7 @@ class FavoriteActivity : BaseAppCompatActivity(), FavoriteListener {
         }
     }
 
-    override fun clickDetails(
+    private fun onDetailsClick(
         pokemonResultResponse: PokemonResultResponse,
         dominantColor: Int,
         picture: String?
@@ -125,7 +124,7 @@ class FavoriteActivity : BaseAppCompatActivity(), FavoriteListener {
         )
     }
 
-    override fun clickDelete(
+    private fun onDeleteClick(
         pokemonResultResponse: PokemonResultResponse,
         positionFavorite: Int
     ) {

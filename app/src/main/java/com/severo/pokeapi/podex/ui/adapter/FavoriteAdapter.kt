@@ -22,7 +22,10 @@ import com.severo.pokeapi.podex.model.PokemonResultResponse
 import com.severo.pokeapi.podex.ui.adapter.listener.FavoriteListener
 import com.severo.pokeapi.podex.util.extensions.getPicUrl
 
-class FavoriteAdapter(var context: Context, var favoriteListener: FavoriteListener) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
+class FavoriteAdapter(
+    var context: Context,
+    var onDetailsClick: (PokemonResultResponse, Int, String?) -> Unit,
+    var onDeleteClick: (PokemonResultResponse, Int) -> Unit): RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
     private var adapterList: MutableList<PokemonResultResponse>? = null
 
     fun setList(list: List<PokemonResultResponse>) {
@@ -62,13 +65,13 @@ class FavoriteAdapter(var context: Context, var favoriteListener: FavoriteListen
                 loadImage(this, pokemonFavoite )
 
                 listItemPokemonCardView.setOnClickListener {
-                    favoriteListener.clickDetails(pokemonFavoite, dominantColor, picture)
+                    onDetailsClick.invoke(pokemonFavoite, dominantColor, picture)
                 }
 
                 listItemLottieAnimation.setOnClickListener {
                     listItemLottieAnimation.speed = 1f
                     listItemLottieAnimation.playAnimation()
-                    favoriteListener.clickDelete(pokemonFavoite, position)
+                    onDeleteClick.invoke(pokemonFavoite, position)
                 }
             }
         }
