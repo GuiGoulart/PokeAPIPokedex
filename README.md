@@ -28,10 +28,3 @@ O projeto usa o padrão de arquitetura MVVM
 
 ## Screenshots Land
 ![image](https://user-images.githubusercontent.com/55321777/157317238-b140e142-a44b-4cdf-b635-08e7ace559b8.png)|![image](https://user-images.githubusercontent.com/55321777/157302129-99b32ff3-241c-4e37-b373-5997f7ce148f.png)|![image](https://user-images.githubusercontent.com/55321777/157317260-62bc3605-46e1-4a53-8c04-f143f97a682f.png)
-
-##Demo
-
-
-
-
-
